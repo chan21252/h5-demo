@@ -1,0 +1,14 @@
+# nodejs
+**/node_modules/
+
+# mac os
+**/.DS_Store
+
+# output
+**/dist/
+dist-ssr
+*.local
+
+# ide prjoect
+**/.idea/
+**/.vscode/
