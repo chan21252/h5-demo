@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"/>
+    <title>Corppie Demo</title>
+</head>
+<body>
+<div id="app">
+    <div v-show="currentPage == 1" id="page-input" class="p">
+        <form>
+            <div class="input-file-mask">+</div>
+            <input accept="image/*" type="file" v-on:change="uploadImage">
+            <input v-model="userText" placeholder="请输入文字" type="text">
+            <button id="btn-create" class="btn" type="button" @click="generate">生成</button>
+        </form>
+        <div id="upload-result">
+            <img alt="" v-bind:src="userImageSrc"/>
+        </div>
+    </div>
+    <div v-show="currentPage == 2" id="page-croppie" class="p">
+        <div id="croppie"></div>
+        <div class="croppie-tool-bar">
+            <div class="tool-btn" @click="cropCancel">取消</div>
+            <div class="tool-btn" @click="cropRotate">旋转</div>
+            <div class="tool-btn" @click="cropComplete">完成</div>
+        </div>
+    </div>
+    <div v-show="currentPage == 3" id="page-result" class="p">
+        <div class="tips">长按保存图片</div>
+        <img class="img-down" src="unknown" v-bind:src="userGenerateSrc" alt=""/>
+    </div>
+</div>
+<script src="./js/index.js" type="module"></script>
+</body>
+</html>

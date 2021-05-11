@@ -1,0 +1,164 @@
+@import "common";
+@url: '../assets/';
+
+@colorWhite: #ffffff;
+@colorBlue: #15a2e4;
+@colorOrange: #fdbc08;
+@colorBlack: #000000;
+
+@marginTop: 0.5rem;
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    background: @colorWhite;
+}
+
+.hidden {
+    display: none !important;
+}
+
+#app {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.p {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#page-input > form {
+    position: static;
+}
+
+input[type="file"] {
+    position: absolute;
+    top: @marginTop;
+    left: 50%;
+    width: 6rem;
+    height: 3rem;
+    margin-left: -3rem;
+    opacity: 0;
+}
+
+.input-file-mask {
+    position: absolute;
+    top: @marginTop;
+    left: 50%;
+    width: 6rem;
+    height: 3rem;
+    margin-left: -3rem;
+    color: @colorBlue;
+    font-size: 1rem;
+    text-align: center;
+    line-height: 2.8rem;
+    border: solid 0.1rem @colorBlue;
+    background: @colorWhite;
+}
+
+#upload-result {
+    position: absolute;
+    top: @marginTop + 6rem;
+    left: 50%;
+    width: 6rem;
+    height: 7rem;
+    margin-left: -3rem;
+    border: solid 0.1rem @colorOrange;
+}
+
+#upload-result > img {
+    width: 100%;
+    height: 100%;
+}
+
+input[type="text"] {
+    position: absolute;
+    top: @marginTop + 3.5rem;
+    left: 50%;
+    width: 6rem;
+    height: 0.5rem;
+    margin-left: -3rem;
+    border-bottom: solid 1px @colorBlue;
+}
+
+button {
+    width: 2rem;
+    height: 1rem;
+    text-align: center;
+    line-height: 1rem;
+    font-size: 14px;
+    color: @colorWhite;
+    background: @colorBlue;
+    border-radius: 10px;
+}
+
+button:hover,
+button:active {
+    background: @colorOrange;
+}
+
+#btn-create {
+    position: absolute;
+    top: @marginTop + 4.5rem;
+    left: 50%;
+    margin-left: -1rem;
+}
+
+/* 截取页面 */
+#page-croppie {
+    background-color: @colorBlack;
+}
+
+#croppie {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.croppie-tool-bar {
+    display: -webkit-flex; /* Safari */
+    display: flex;
+    position: fixed;
+    left: 0;
+    bottom: 0.5rem;
+    width: 100%;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.7);
+    float: left;
+    z-index: 999;
+}
+
+.tool-btn {
+    flex: 1;
+    color: white;
+    line-height: 40px;
+    font-size: 18px;
+    text-align: center;
+    border: 1px solid hsla(0, 0%, 100%, 0.1);
+}
+
+.img-down {
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+}
+
+.tips {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    left: 0;
+    bottom: 0.5rem;
+    color: @colorOrange;
+    font-size: 0.24rem;
+}
