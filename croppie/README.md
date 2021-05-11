@@ -11,7 +11,7 @@
 
 生产：
 1. vuejs
-2. croppie ![链接](http://foliotek.github.io/Croppie/)
+2. croppie [链接](http://foliotek.github.io/Croppie/)
 
 详见package.json
 
@@ -27,3 +27,7 @@
     1. 创建image对象，`new Image(); img.src = array[i]`
     2. 图片加载完成就绘制，`img.onload = () => {ctx.drawImg(...)}`
 3. 绘制完的canvas保存下来
+
+## demo
+
+[https://adpaiprojects.thepaper.cn/h5-demo/croppie/index.html](https://adpaiprojects.thepaper.cn/h5-demo/croppie/index.html)
