@@ -1,9 +1,16 @@
 <template>
-  <div class="container">
+  <div
+      @touchstart="playerTouchStart"
+      @touchmove="playerTouchMove"
+      @touchend="playerTouchEnd"
+      @mousedown="playerTouchStart"
+      @mousemove="playerTouchMove"
+      @mouseup="playerTouchEnd"
+      class="container">
     <div v-for="(item, index) in cardArrs" :key="index"
          :style="[
         { zIndex: item.zIndex },
-        { transform: `scale(${item.scale}) translate3d(0px, ${item.translateY}, 0px)` },
+        { transform: `scale(${item.scale}) translate3d(${item.translateX}, 0px, 0px)` },
         { transition: `transform ${item.transitionTime}s ease 0s` }
       ]"
          class="card-item"
@@ -26,7 +33,7 @@ export default {
           zIndex: 10,
           bgColor: "red",
           scale: 1,
-          translateY: 0,
+          translateX: 0,
           transitionTime: 1
         },
         {
@@ -34,7 +41,7 @@ export default {
           zIndex: 9,
           bgColor: "blue",
           scale: 0.9,
-          translateY: '9vh',
+          translateX: '9vw',
           transitionTime: 1
         },
         {
@@ -42,7 +49,7 @@ export default {
           zIndex: 8,
           bgColor: "yellow",
           scale: 0.85,
-          translateY: '14vh',
+          translateX: '15vw',
           transitionTime: 1
         },
         {
@@ -50,7 +57,7 @@ export default {
           zIndex: 7,
           bgColor: "green",
           scale: 0.5,
-          translateY: '40vh',
+          translateX: '40vw',
           transitionTime: 1
         },
         {
@@ -58,7 +65,7 @@ export default {
           zIndex: 6,
           bgColor: "gray",
           scale: 0.5,
-          translateY: '40vh',
+          translateX: '40vw',
           transitionTime: 0
         },
         {
@@ -66,7 +73,7 @@ export default {
           zIndex: 5,
           bgColor: "pink",
           scale: 0.5,
-          translateY: '40vh',
+          translateX: '40vw',
           transitionTime: 0
         },
         {
@@ -74,7 +81,7 @@ export default {
           zIndex: 4,
           bgColor: "purple",
           scale: 0.5,
-          translateY: '40vh',
+          translateX: '40vw',
           transitionTime: 0
         },
         {
@@ -82,7 +89,7 @@ export default {
           zIndex: 3,
           bgColor: "green",
           scale: 0.5,
-          translateY: '40vh',
+          translateX: '40vw',
           transitionTime: 0
         },
         {
@@ -90,7 +97,7 @@ export default {
           zIndex: 2,
           bgColor: "#fff",
           scale: 0.5,
-          translateY: '40vh',
+          translateX: '40vw',
           transitionTime: 0
         },
         {
@@ -98,19 +105,205 @@ export default {
           zIndex: 1,
           bgColor: "pink",
           scale: 0.5,
-          translateY: '40vh',
+          translateX: '40vw',
           transitionTime: 0
         },
       ],
       isClick: true,
-      startY: 0, // 触摸位置
-      endY: 0, // 结束位置
-      moveY: 0, // 滑动时的位置
-      disY: 0, // 移动距离
+      startX: 0, // 触摸位置
+      endX: 0, // 结束位置
+      moveX: 0, // 滑动时的位置
+      disX: 0, // 移动距离
       slideDistance: 40, // 滑动触发切换还是回位的阀值
       currentIndex: 0, // 当前第一个的 index
-      slideDirection: 0, // 滑动方向：0 向下，1 向上
+      slideLeft: false,   // 向左滑动
       slideFilishDistance: 300,  // 滑动切换动画完成的距离
+    }
+  },
+
+  methods: {
+    playerTouchStart(ev) {
+      ev = ev || event
+      this.click = true
+      //console.log(ev)
+      if (ev.touches.length === 1) {
+        //记录开始滑动的位置
+        this.startX = ev.touches[0].clientX;
+        console.log('开始触摸-startX', this.startX)
+      }
+    },
+
+    playerTouchMove(ev) {
+      ev = ev || event
+      this.click = true
+      if (ev.touches.length === 1) {
+        this.moveX = ev.touches[0].clientX
+        this.disX = this.startX - this.moveX
+
+        if (this.disX < 0) {  //右滑
+          this.slideLeft = false
+
+        } else if (this.disX > 0){  //左滑
+          this.slideLeft = true
+          let item_1 = this.cardArrs[this.currentIndex]
+          item_1.translateX = -this.disX + 'px'
+          item_1.transitionTime = 0
+          item_1.scale = 1
+
+          if (this.cardArrs[this.currentIndex + 1]) {
+            let item_2 = this.cardArrs[this.currentIndex + 1]
+            if (this.disX <= this.slideFilishDistance) {
+              item_2.translateX = -(9 / this.slideFilishDistance) * this.disX + 9 + 'vw'
+              item_2.transitionTime = 0
+              item_2.scale = (0.1 / this.slideFilishDistance) * this.disX + 0.9
+            }
+          }
+
+          // 当前第三个变化
+          if (this.cardArrs[this.currentIndex + 2]) {
+            let item_3 = this.cardArrs[this.currentIndex + 2]
+            if (this.disX <= this.slideFilishDistance) {
+              item_3.translateX = -(5 / this.slideFilishDistance) * this.disX + 14 + 'vw'
+              item_3.transitionTime = 0
+              item_3.scale = (0.05 / this.slideFilishDistance) * this.disX + 0.85
+            }
+          }
+          // 当前第四个变化
+          if (this.cardArrs[this.currentIndex + 3]) {
+            let item_4 = this.cardArrs[this.currentIndex + 3]
+            if (this.disX <= this.slideFilishDistance) {
+              item_4.translateX = -(26 / this.slideFilishDistance) * this.disX + 40 + 'vw'
+              item_4.transitionTime = 0
+              item_4.scale = (0.35 / this.slideFilishDistance) * this.disX + 0.5
+            }
+          }
+        }
+      }
+    },
+
+    playerTouchEnd(ev) {
+      ev = ev || event
+      if (ev.changedTouches.length === 1) {
+        this.endX = ev.changedTouches[0].clientX
+        console.log('滑动结束-endX', this.endX)
+        this.disX = this.startX - this.endX
+        if (Math.abs(this.disX) < this.slideDistance) {
+          // 滑动距离小于滑动限制的距离,强行回到起点
+          this.returnBack()
+        } else {
+          // 滑动距离大于滑动限制的距离,滑动到最大值
+          if (this.slideLeft) {
+            this.slideUp()
+          } else {
+            this.slideDown()
+          }
+        }
+      }
+    },
+
+    // 回到起点
+    returnBack () {
+      // 当前第一个变化
+      let item_1 = this.cardArrs[this.currentIndex]
+      item_1.translateX = 0
+      item_1.transitionTime = 1
+      item_1.scale = 1
+      // 当前第二个变化
+      if (this.cardArrs[this.currentIndex + 1]) {
+        let item_2 = this.cardArrs[this.currentIndex + 1]
+        item_2.translateX = '9vw'
+        item_2.transitionTime = 1
+        item_2.scale = 0.9
+      }
+      // 当前第三个变化
+      if (this.cardArrs[this.currentIndex + 2]) {
+        let item_3 = this.cardArrs[this.currentIndex + 2]
+        item_3.translateX = '14vw'
+        item_3.transitionTime = 1
+        item_3.scale = 0.85
+      }
+      // 当前第四个变化
+      if (this.cardArrs[this.currentIndex + 3]) {
+        let item_4 = this.cardArrs[this.currentIndex + 3]
+        item_4.translateX = '40vw'
+        item_4.transitionTime = 1
+        item_4.scale = 0.5
+      }
+    },
+
+    // 向上滑动切换
+    slideUp () {
+      if (this.currentIndex === this.cardArrs.length - 1) {
+        return this.returnBack()
+      }
+      // 当前第一个变化
+      let item_1 = this.cardArrs[this.currentIndex]
+      item_1.translateX = '-160vw'
+      item_1.transitionTime = 1
+      item_1.scale = 0.5
+      // 当前第二个变化
+      if (this.cardArrs[this.currentIndex + 1]) {
+        let item_2 = this.cardArrs[this.currentIndex + 1]
+        item_2.translateX = 0
+        item_2.transitionTime = 1
+        item_2.scale = 1
+      }
+      // 当前第三个变化
+      if (this.cardArrs[this.currentIndex + 2]) {
+        let item_3 = this.cardArrs[this.currentIndex + 2]
+        item_3.translateX = '9vw'
+        item_3.transitionTime = 1
+        item_3.scale = 0.9
+      }
+      // 当前第四个变化
+      if (this.cardArrs[this.currentIndex + 3]) {
+        let item_4 = this.cardArrs[this.currentIndex + 3]
+        item_4.translateX = '15vw'
+        item_4.transitionTime = 1
+        item_4.scale = 0.85
+      }
+      this.currentIndex++
+      if (this.currentIndex > this.cardArrs.length - 1) {
+        this.currentIndex = this.cardArrs.length - 1
+      }
+      console.log('currentIndex---', this.currentIndex)
+    },
+    // 向下滑动切换
+    slideDown () {
+      if (this.currentIndex === 0) {
+        return this.returnBack()
+      }
+      // 当前上一个变化
+      if (this.cardArrs[this.currentIndex - 1]) {
+        let item_0 = this.cardArrs[this.currentIndex - 1]
+        item_0.translateX = 0
+        item_0.transitionTime = 0.6
+        item_0.scale = 1
+      }
+      // 当前第一个变化
+      let item_1 = this.cardArrs[this.currentIndex]
+      item_1.translateX = '9vw'
+      item_1.transitionTime = 0.6
+      item_1.scale = 0.9
+      // 当前第二个变化
+      if (this.cardArrs[this.currentIndex + 1]) {
+        let item_2 = this.cardArrs[this.currentIndex + 1]
+        item_2.translateX = '15vw'
+        item_2.transitionTime = 0.6
+        item_2.scale = 0.85
+      }
+      // 当前第三个变化
+      if (this.cardArrs[this.currentIndex + 2]) {
+        let item_3 = this.cardArrs[this.currentIndex + 2]
+        item_3.translateX = '40vw'
+        item_3.transitionTime = 0.6
+        item_3.scale = 0.5
+      }
+      this.currentIndex--
+      if (this.currentIndex < 0) {
+        this.currentIndex = 0
+      }
+      console.log('currentIndex---', this.currentIndex)
     }
   }
 }
@@ -120,7 +313,7 @@ export default {
 .container {
   position: relative;
   width: 6.9rem;
-  height:5.2rem;
+  height: 4.8rem;
   background: #fff;
   margin: 0 auto;
   overflow: hidden;
@@ -140,8 +333,8 @@ export default {
   width: 100%;
   height: 100%;
   margin: 0 auto;
-  box-shadow: 0 4px 12px 1px rgba(57,57,57,.14);
+  box-shadow: 0 4px 12px 1px rgba(57,57,57,.2);
   position: relative;
-  border-radius: 12px;
+  border-radius: 20px;
 }
 </style>

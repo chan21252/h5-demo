@@ -1,5 +1,5 @@
 module.exports = {
     publicPath:'./',
-    outputDir: 'vue-slide-card',
+    outputDir: 'dist',
     lintOnSave: false  // 禁用 ESlint
 }
