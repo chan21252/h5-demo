@@ -1,0 +1,37 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.container {
+    position: relative;
+    width: 6.9rem;
+    height: 4.8rem;
+    background: #fff;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.card {
+    position: absolute;
+    width: 6.35rem;
+    height: 4.8rem;
+    border-radius: 5px;
+    will-change: transform;
+}
+
+.card-item {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    box-shadow: 0 4px 10px 1px rgba(125, 125, 125, .2);
+    border-radius: 20px;
+}
