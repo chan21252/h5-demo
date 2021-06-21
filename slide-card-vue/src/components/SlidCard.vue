@@ -129,7 +129,7 @@ export default {
           // 当前上一个变化
           if (this.cardArrs[this.currentIndex - 1]) {
             let item_0 = this.cardArrs[this.currentIndex - 1]
-            item_0.translateY = -window.innerHeight - this.disX + 'px'
+            item_0.translateX = -window.innerWidth - this.disX + 'px'
             item_0.transitionTime = 0
             if (-this.disX <= this.slideFinishDistance) {
               item_0.scale = -(0.2 / this.slideFinishDistance) * this.disX + 0.8
@@ -138,7 +138,7 @@ export default {
           // 当前第一个变化
           let item_1 = this.cardArrs[this.currentIndex]
           if (-this.disX <= this.slideFinishDistance) {
-            item_1.translateY = -(9 / this.slideFinishDistance) * this.disX + 'vw'
+            item_1.translateX = -(9 / this.slideFinishDistance) * this.disX + 'vw'
             item_1.transitionTime = 0
             item_1.scale = (0.1 / this.slideFinishDistance) * this.disX + 1
           }
@@ -146,7 +146,7 @@ export default {
           if (this.cardArrs[this.currentIndex + 1]) {
             let item_2 = this.cardArrs[this.currentIndex + 1]
             if (-this.disX <= this.slideFinishDistance) {
-              item_2.translateY = -(5 / this.slideFinishDistance) * this.disX + 9 + 'vw'
+              item_2.translateX = -(5 / this.slideFinishDistance) * this.disX + 9 + 'vw'
               item_2.transitionTime = 0
               item_2.scale = (0.05 / this.slideFinishDistance) * this.disX + 0.9
             }
@@ -155,7 +155,7 @@ export default {
           if (this.cardArrs[this.currentIndex + 2]) {
             let item_3 = this.cardArrs[this.currentIndex + 2]
             if (-this.disX <= this.slideFinishDistance) {
-              item_3.translateY = -(26 / this.slideFinishDistance) * this.disX + 15 + 'vw'
+              item_3.translateX = -(26 / this.slideFinishDistance) * this.disX + 15 + 'vw'
               item_3.transitionTime = 0
               item_3.scale = (0.35 / this.slideFinishDistance) * this.disX + 0.85
             }
