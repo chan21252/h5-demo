@@ -1,22 +1,15 @@
 <template>
   <div id="app">
-  <SlidCard></SlidCard>
+    <router-view/>
   </div>
 </template>
 
+<!--
 <script>
 import rem from './module/rem'
-import SlidCard from './components/SlidCard.vue'
-
 rem(document, window)
-
-export default {
-  name: 'App',
-  components: {
-    SlidCard
-  }
-}
 </script>
+-->
 
 <style>
 * {
