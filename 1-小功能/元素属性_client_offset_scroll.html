@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <title>元素属性-client、offset、scroll相关</title>
+  <link href="../../common/css/reset.css" rel="stylesheet">
+  <link href="../../common/css/common.css" rel="stylesheet">
+  <style>
+    html, body, #app {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+    #app {
+      padding: 10px;
+      border: solid 1px var(--primary-color);
+    }
+    #box {
+      position: relative;
+      top: 100px;
+      left: 0;
+      width: 100px;
+      height: 100px;
+      margin: 10px;
+      padding: 10px;
+      background: var(--primary-color);
+      border: solid 1px var(--error-color);
+      overflow: scroll;
+    }
+
+    #box-child1 {
+      width: 78px;
+      height: 500px;
+      background: var(--success-color);
+      border: solid 1px var(--primary-color);
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div id="box">
+      <div id="box-child1">滚动区域</div>
+    </div>
+  </div>
+  <script src="https://unpkg.com/vconsole@3.14.6/dist/vconsole.min.js"></script>
+  <script>
+    const boxEle = document.getElementById("box");
+    const {clientWidth, clientHeight,
+      offsetWidth, offsetHeight, offsetTop, offsetLeft,
+      scrollHeight
+    } = boxEle;
+    // clientHeight 是元素内部的高度，包含内边距，但不包括水平滚动条、边框和外边距，只读属性
+    console.log("元素内部宽度和高度:", clientWidth, clientHeight);
+    // offsetWidth 是元素的布局宽度。包含元素的边框、内边距、竖直方向滚动条、以及CSS设置的宽度的值，只读属性
+    console.log("元素布局宽度和高度:", offsetWidth, offsetHeight);
+    // offsetTop 是元素内容相对父元素顶部内边距的距离，只读属性
+    console.log("元素内容相对父元素顶部和左边的距离:", offsetTop, offsetLeft);
+    // scrollHeight 元素内容高度，包括溢出视图不可见的内容
+    console.log("元素内容高度:", scrollHeight);
+
+    boxEle.addEventListener('scroll', function (event) {
+      // 获取或设置一个元素的内容垂直滚动的像素数
+      let {scrollTop} = event.target;
+      console.log("元素内容滚动高度：", scrollTop);
+      if (scrollHeight === scrollTop + clientHeight) {
+        alert("滚动到最底部了")
+      }
+    })
+
+
+  </script>
+</body>
+</html>

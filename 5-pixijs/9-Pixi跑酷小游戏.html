@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title></title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            border: none;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+<div></div>
+<script src="js/pixi-7.2.4.js"></script>
+<script src="js/pixi-filters.js"></script>
+<script>
+  const app = new PIXI.Application({
+    autoStart: true,
+    resizeTo: window,
+    backgroundColor: 0xffffff,
+    antialias: true
+  })
+  document.body.appendChild(app.view)
+
+  const state = {
+    isPlaying: false,
+    isGameOver: false,
+    score: 0,
+    jump: {
+      gravity: 1,
+      initVerticalSpeed: 18,
+      verticalSpeed: 18,
+    },
+    speed: 5
+  }
+
+  if (window.innerWidth > 720) {
+    state.jump.initVerticalSpeed = 15
+    state.speed = 10
+  }
+  let container = new PIXI.Container()
+
+  const dinoWidth = 44
+  const dinoHeight = 47
+  const dinoOriginX = 10
+  const cactusWidth = 25
+  // 加载贴图
+  let dinoBaseTexture = PIXI.BaseTexture.from('./img/dino.png')
+
+  // 恐龙跳跃
+  let dinoJumpTexture = new PIXI.Texture(
+      dinoBaseTexture,
+      new PIXI.Rectangle(848 + 5 * dinoWidth, 2, dinoWidth, dinoHeight)
+  )
+  let dinoJumpSprite = new PIXI.Sprite(dinoJumpTexture)
+  dinoJumpSprite.x = dinoOriginX
+  dinoJumpSprite.y = window.innerHeight - 100 - 40
+  container.addChild(dinoJumpSprite)
+
+  // 跑步动画
+  let dinoRunTextures = []
+  for (let i = 0; i < 6; i++) {
+    let texture = new PIXI.Texture(
+        dinoBaseTexture,
+        new PIXI.Rectangle(848 + i * dinoWidth, 2, dinoWidth, dinoHeight)
+    )
+    dinoRunTextures.push(texture)
+  }
+  let dinoRunAnimation = new PIXI.AnimatedSprite(dinoRunTextures)
+  dinoRunAnimation.animationSpeed = 0.4
+  dinoRunAnimation.play()
+  dinoRunAnimation.x = dinoOriginX
+  dinoRunAnimation.y = window.innerHeight - 100 - 40
+
+  // 地形
+  let terrainTexture = new PIXI.Texture(
+      dinoBaseTexture,
+      new PIXI.Rectangle(2, 58, 1200, 8)
+  )
+  let terrainSprite = new PIXI.TilingSprite(terrainTexture)
+  terrainSprite.x = 0
+  terrainSprite.y = window.innerHeight - 100
+  terrainSprite.width = app.screen.width
+  terrainSprite.height = 8
+  container.addChild(terrainSprite)
+
+  // 仙人掌
+  let cactusTexture = new PIXI.Texture(
+      dinoBaseTexture,
+      new PIXI.Rectangle(333, 2, 25, 50)
+  )
+  let cactusSprite = new PIXI.Sprite(cactusTexture)
+  cactusSprite.x = window.innerWidth - cactusWidth
+  cactusSprite.y = window.innerHeight - 100 - 40
+  container.addChild(terrainSprite)
+  container.addChild(cactusSprite)
+  container.addChild(dinoRunAnimation)
+
+  // UI
+  let text = new PIXI.Text('点击开始游戏', {
+    fontFamily: 'sans-serif',
+    fontSize: 18,
+    fill: 0x333333,
+    align: 'center',
+  })
+  text.anchor.set(0.5, 0.5)
+  text.position.x = window.innerWidth / 2
+  text.position.y = window.innerHeight / 2
+  container.addChild(text)
+
+  app.stage.addChild(container)
+  text.interactive = true
+  text.on('pointerdown', function () {
+    if (!state.isPlaying) {
+      startGame()
+    }
+  })
+
+  initGame()
+  gameLoop()
+
+  function initGame() {
+    dinoJumpSprite.visible = true
+    dinoRunAnimation.visible = false
+  }
+
+  function startGame() {
+    state.score = 0
+    state.jump.verticalSpeed = state.jump.initVerticalSpeed
+    terrainSprite.x = 0
+    cactusSprite.x = window.innerWidth - cactusWidth
+    dinoJumpSprite.visible = false
+    dinoRunAnimation.visible = true
+    text.text = `按空格键/滑动跳跃，得分：${state.score}`
+    state.isPlaying = true
+  }
+
+  function gameLoop() {
+    app.ticker.add(() => {
+      if (state.isPlaying) {
+        terrainSprite.tilePosition.x -= state.speed
+        cactusSprite.x -= state.speed
+        if (cactusSprite.x < -cactusWidth) {
+          cactusSprite.x = window.innerWidth
+          state.score++
+          text.text = `按空格键/滑动跳跃，得分：${state.score}`
+        }
+
+        // 碰撞检测
+        if (dinoRunAnimation.x + dinoWidth > cactusSprite.x         // 恐龙右边界 > 仙人掌左边界
+            && dinoRunAnimation.x < cactusSprite.x + cactusWidth    // 恐龙左边界 < 仙人掌右边界
+            && dinoJumpSprite.y + dinoHeight > cactusSprite.y       // 跳跃碰撞
+        ) {
+          state.isGameOver = true
+          state.isPlaying = false
+          text.text = `GameOver，最终得分：${state.score}, 点击重新开始游戏`
+        }
+
+        // 跳跃动画
+        if (dinoJumpSprite.visible) {
+          dinoJumpSprite.y -= state.jump.verticalSpeed
+          state.jump.verticalSpeed -= state.jump.gravity
+        }
+
+        // 重置跳跃速度
+        if (dinoJumpSprite.y >= window.innerHeight - 100 - 40) {
+          dinoJumpSprite.visible = false
+          dinoRunAnimation.visible = true
+          state.jump.verticalSpeed = state.jump.initVerticalSpeed
+        }
+      }
+    })
+  }
+
+  window.addEventListener('keydown', function (e) {
+    if (e.code === 'Space') {
+      dinoJumpSprite.visible = true
+      dinoRunAnimation.visible = false
+    }
+  })
+
+  window.addEventListener('touchmove', function (e) {
+    dinoJumpSprite.visible = true
+    dinoRunAnimation.visible = false
+  })
+</script>
+</body>
+</html>

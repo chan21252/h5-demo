@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title></title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+<div></div>
+<script src="js/pixi-7.2.4.js"></script>
+<script>
+    let app = new PIXI.Application({
+        width: window.innerWidth,
+        height: window.innerHeight,
+        backgroundColor: 0xf07c82,
+        resolution: window.devicePixelRatio || 1,
+        antialias: true,
+    });
+
+    document.body.appendChild(app.view);
+
+    // 添加资源
+    // PIXI.Assets.add('avatar', './img/avatar.png');
+    // PIXI.Assets.add('player', './img/jxk.png');
+    // PIXI.Assets.add('sword', './img/sword.png');
+
+
+    // 添加打包资源
+    PIXI.Assets.addBundle('jxk', {
+        'avatar': './img/avatar.png',
+        'player': './img/jxk.png',
+        'arms': './img/sword.png'
+    });
+
+    // 加载资源
+    // const texturesPromise = PIXI.Assets.load(['avatar', 'jxk', 'sword'], (progress) => {
+    //     console.log(progress)
+    // });
+
+    // 加载打包资源
+    const texturesPromise = PIXI.Assets.loadBundle('jxk', (progress) => {
+        console.log(progress)
+    });
+
+    texturesPromise.then((textures) => {
+        // 创建容器
+        const container = new PIXI.Container();
+
+        // 创建精灵
+        const sprite1 = new PIXI.Sprite(textures.avatar);
+        container.addChild(sprite1);
+
+        const sprite2 = new PIXI.Sprite(textures.player);
+        sprite2.anchor.set(0.5, 0.5);
+        sprite2.x = app.screen.width / 2;
+        sprite2.y = app.screen.height / 2;
+
+        const sprite3 = new PIXI.Sprite(textures.arms);
+        container.addChild(sprite3);
+        sprite3.anchor.set(0.5, 0.5);
+        sprite3.scale.set(0.5, 0.5);
+        sprite3.rotation = Math.PI / -2;
+        sprite3.x = app.screen.width / 2 - 22;
+        sprite3.y = app.screen.height / 2 + 12;
+
+        container.addChild(sprite2);
+
+        app.stage.addChild(container);
+    });
+</script>
+</body>
+</html>

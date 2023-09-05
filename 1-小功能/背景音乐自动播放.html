@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>背景音乐自动播放</title>
+    <style>
+        .music {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+        }
+
+        .music.rotate {
+            animation: rotate360 3s linear infinite;
+        }
+
+        .music.rotate.pause {
+            animation-play-state: paused;
+        }
+        .music > img {
+            width: 100%;
+            height: 100%;
+        }
+
+        @keyframes rotate360 {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(1turn);
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="music rotate" id="music">
+    <img src="./assets/music.png" alt="">
+    <audio src="./assets/audio.mp3" autoplay style="display: none"></audio>
+</div>
+<script>
+    (function () {
+      let state = {
+        playStatus: false,
+        touched: false,
+      }
+
+      const audioEl = document.querySelector('.music > audio')
+      const musicEl = document.querySelector('.music')
+      const ua = navigator.userAgent
+      const isIOS = !!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)
+
+      /*
+      1. 微信iOS支持自动播放
+      2. 微信Android不支持自动播放（https://developers.weixin.qq.com/community/develop/doc/000e640d77cfa001132a6cb8456c01），
+      点击屏幕触发播放
+      */
+      document.addEventListener('WeixinJSBridgeReady', function () {
+        if (isIOS && !state.playStatus) {
+          audioEl.play()
+          state.playStatus = true
+        }
+      }, false)
+
+      function triggerPlayAudio() {
+        if (!state.playStatus && !state.touched) {
+          audioEl.play()
+          state.playStatus = true
+          state.touched = true
+          musicEl.classList.remove('pause')
+        }
+        document.removeEventListener('click', triggerPlayAudio)
+      }
+
+      function togglePlayStatus(e) {
+        e.stopPropagation()
+        if (state.playStatus) {
+          audioEl.pause()
+          musicEl.classList.add('pause')
+        } else {
+          audioEl.play()
+          musicEl.classList.remove('pause')
+        }
+        state.playStatus = !state.playStatus
+      }
+
+      musicEl.addEventListener('click', togglePlayStatus)
+
+      // 不支持自动播放，icon改成暂停
+      if (audioEl.paused) {
+        musicEl.classList.add('pause')
+        document.addEventListener('click', triggerPlayAudio, false)
+      }
+    })()
+</script>
+</body>
+</html>

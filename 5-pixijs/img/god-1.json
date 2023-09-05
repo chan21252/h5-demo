@@ -1,0 +1,132 @@
+{"frames": {
+
+"飞天2_00000.png":
+{
+	"frame": {"x":1010,"y":660,"w":332,"h":325},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":4,"w":332,"h":325},
+	"sourceSize": {"w":336,"h":333}
+},
+"飞天2_00001.png":
+{
+	"frame": {"x":1344,"y":660,"w":330,"h":325},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":4,"w":330,"h":325},
+	"sourceSize": {"w":336,"h":333}
+},
+"飞天2_00002.png":
+{
+	"frame": {"x":1346,"y":331,"w":330,"h":327},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":3,"w":330,"h":327},
+	"sourceSize": {"w":336,"h":333}
+},
+"飞天2_00003.png":
+{
+	"frame": {"x":1346,"y":2,"w":330,"h":327},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":3,"w":330,"h":327},
+	"sourceSize": {"w":336,"h":333}
+},
+"飞天2_00004.png":
+{
+	"frame": {"x":674,"y":331,"w":332,"h":327},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":3,"w":332,"h":327},
+	"sourceSize": {"w":336,"h":333}
+},
+"飞天2_00005.png":
+{
+	"frame": {"x":1012,"y":2,"w":332,"h":329},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":2,"w":332,"h":329},
+	"sourceSize": {"w":336,"h":333}
+},
+"飞天2_00006.png":
+{
+	"frame": {"x":2,"y":331,"w":334,"h":327},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":3,"w":334,"h":327},
+	"sourceSize": {"w":336,"h":333}
+},
+"飞天2_00007.png":
+{
+	"frame": {"x":676,"y":2,"w":334,"h":327},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":3,"w":334,"h":327},
+	"sourceSize": {"w":336,"h":333}
+},
+"飞天2_00008.png":
+{
+	"frame": {"x":2,"y":2,"w":336,"h":327},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":3,"w":336,"h":327},
+	"sourceSize": {"w":336,"h":333}
+},
+"飞天2_00009.png":
+{
+	"frame": {"x":340,"y":2,"w":334,"h":327},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":3,"w":334,"h":327},
+	"sourceSize": {"w":336,"h":333}
+},
+"飞天2_00010.png":
+{
+	"frame": {"x":2,"y":660,"w":334,"h":325},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":4,"w":334,"h":325},
+	"sourceSize": {"w":336,"h":333}
+},
+"飞天2_00011.png":
+{
+	"frame": {"x":338,"y":658,"w":334,"h":325},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":4,"w":334,"h":325},
+	"sourceSize": {"w":336,"h":333}
+},
+"飞天2_00012.png":
+{
+	"frame": {"x":338,"y":331,"w":334,"h":325},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":4,"w":334,"h":325},
+	"sourceSize": {"w":336,"h":333}
+},
+"飞天2_00013.png":
+{
+	"frame": {"x":674,"y":660,"w":334,"h":323},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":6,"w":334,"h":323},
+	"sourceSize": {"w":336,"h":333}
+},
+"飞天2_00014.png":
+{
+	"frame": {"x":1008,"y":333,"w":332,"h":325},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":4,"w":332,"h":325},
+	"sourceSize": {"w":336,"h":333}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker ",
+	"version": "1.0",
+	"image": "god-1.png",
+	"format": "RGBA8888",
+	"size": {"w":1678,"h":987},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:5d6a3c38de05972c8f1bbf4f1520304f:1/1$"
+}
+}

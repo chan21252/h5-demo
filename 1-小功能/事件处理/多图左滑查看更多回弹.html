@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <title>多图左滑查看更多回弹</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            border: none;
+            box-sizing: border-box;
+        }
+
+        img {
+            display: block;
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        html, body, .wrap {
+            height: 100%;
+        }
+
+        .list {
+            height: 100%;
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: scroll;
+            overflow-y: hidden;
+            transition: all 1s;
+        }
+
+        .item {
+            height: 100%;
+            border-radius: 10px;
+            margin-right: 10px;
+        }
+
+        .item.item-more {
+            writing-mode: vertical-lr;
+            text-align: center;
+            font-size: 14px;
+            color: #333;
+        }
+
+    </style>
+</head>
+<body>
+<div class="wrap" id="wrap">
+    <div class="list" id="list">
+        <img class="item"
+             src="https://imgadpai.thepaper.cn/adstatics/images/9bedd9e3457f41fba1c07683aab3f669/2023/08/1690857583202063569.jpg">
+        <img class="item"
+             src="https://imgadpai.thepaper.cn/adstatics/images/9bedd9e3457f41fba1c07683aab3f669/2023/08/1690857596581069059.jpg">
+        <img class="item"
+             src="https://imgadpai.thepaper.cn/adstatics/images/9bedd9e3457f41fba1c07683aab3f669/2023/08/1690857605542072111.jpg">
+        <img class="item"
+             src="https://imgadpai.thepaper.cn/adstatics/images/9bedd9e3457f41fba1c07683aab3f669/2023/08/1690857613911066451.jpg">
+        <div class="item item-more" id="item-more">左滑查看更多</div>
+    </div>
+</div>
+<script>
+  const wrapEl = document.getElementById('wrap')
+  const listEl = document.getElementById('list')
+  const itemMoreEl = document.getElementById('item-more')
+
+  const state = {
+    tip: '左滑查看更多',
+    draggingOk: false,
+    touchX: 0,
+    isScrollEnd: false,
+    trans: 0,
+    DRAG_MAX: 120,
+    TRANS_MAX: 62,
+    DRAG_OK_DISTANCE: 40
+  }
+
+  wrapEl.addEventListener('touchstart', function (e) {
+
+  }, {passive: false})
+
+  wrapEl.addEventListener('touchmove', function (e) {
+    let pageX = e.changedTouches[0].pageX
+    // 判断是否滑动到最右侧
+    // list的左侧滚动距离 + 布局宽度 = 包括溢出内容的宽度
+    // 在iOS系统中可能 = -1
+    state.isScrollEnd = (listEl.scrollLeft + listEl.offsetWidth - listEl.scrollWidth) >= -1
+    if (state.isScrollEnd) {
+      // 记录开始滑动的位置
+      if (state.touchX === 0) {
+        state.touchX = pageX
+        return
+      }
+      let distance = state.touchX - pageX
+      let d = distance < 0 ? 0 :
+          distance > state.DRAG_MAX ? state.DRAG_MAX : distance
+
+      // 抛物线函数变换
+      let trans = state.TRANS_MAX - (state.TRANS_MAX / state.DRAG_MAX ** 2) * (d - state.DRAG_MAX) ** 2;
+      state.trans = trans
+      if (trans >= state.DRAG_OK_DISTANCE) {
+        state.draggingOk = true
+      }
+    } else {
+      // list已经滑动到最右侧情况下，先往右滑不松手（isScrollEnd:false），再往左滑动到最大，再往右（isScrollEnd:false）,
+      // 此时trans > 0，需设置归位
+      if (state.trans > 0) state.trans = 0
+      state.draggingOk = false
+    }
+  }, {passive: false})
+
+  wrapEl.addEventListener('touchend', function () {
+    if (state.draggingOk) {
+      console.log('do something')
+    }
+    state.touchX = 0
+    state.trans = 0
+    state.draggingOk = false
+  })
+
+  function reactiveState(key, updateView) {
+    Object.defineProperty(state, key, {
+      get() {
+        return state.key
+      },
+      set(newVal) {
+        state.key = newVal
+        updateView()
+      }
+    })
+  }
+
+  reactiveState('trans', function () {
+    listEl.style.transform = `translateX(${-state.trans}px)`
+  })
+
+  reactiveState('draggingOk', function () {
+    itemMoreEl.innerText = state.draggingOk ? '松开跳转' : '左滑查看更多'
+  })
+</script>
+</body>
+</html>

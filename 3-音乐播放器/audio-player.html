@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>音频播放器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            border: none;
+            box-sizing: border-box;
+        }
+
+        .audio-container {
+            position: relative;
+            left: 0;
+            top: 0;
+            width: 300px;
+            height: 60px;
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 6px 0 rgba(114, 103, 74, .2);
+        }
+
+        .audio-controls {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        .audio-controls .audio-btn {
+            width: 40px;
+            height: 40px;
+        }
+
+        .audio-controls .audio-btn .icon {
+            width: 100%;
+            height: 100%;
+            background-size: 100%;
+        }
+
+        .icon.play {
+            background: url(./play.png) no-repeat;
+        }
+
+        .icon.pause {
+            background: url(./pause.png) no-repeat;
+        }
+
+        .audio-controls .audio-progress-box {
+            position: relative;
+            width: 76%;
+            height: 3px;
+            margin-left: 5px;
+            background: #c6c6c6;
+            border-radius: 3px;
+        }
+
+        .audio-progress-bar {
+            width: 0;
+            height: 100%;
+            background: #048ac3;
+        }
+
+        .audio-progress-dot {
+            position: absolute;
+            top: -3px;
+            width: 10px;
+            height: 10px;
+            background: #048ac3;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="audio-container">
+        <div class="audio-controls">
+            <div class="audio-btn">
+                <div class="icon play"></div>
+                <div class="icon pause" style="display: none;"></div>
+            </div>
+            <div class="audio-progress-box">
+                <div class="audio-progress-bar"></div>
+                <div class="audio-progress-dot"></div>
+            </div>
+        </div>
+        <audio src="./audio.mp3" preload="auto"></audio>
+    </div>
+</body>
+<script>
+    // https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/audio
+    const audioPlayer = (function () {
+        const state = {
+            isPlay: false,
+            audioDuration: 0
+        }
+
+        const audioEl = document.querySelector('audio')
+        const progressBoxEl = document.querySelector('.audio-progress-box')
+        const progressBarEl = document.querySelector('.audio-progress-bar')
+        const progressDotEl = document.querySelector('.audio-progress-dot')
+
+        const $refs = {
+            audioEl, progressBarEl, progressDotEl
+        }
+
+        function setAudioState() {
+            if (state.isPlay) {
+                audioEl.play()
+                document.querySelector('.play').style.display = 'none'
+                document.querySelector('.pause').style.display = 'block'
+            } else {
+                audioEl.pause()
+                document.querySelector('.play').style.display = 'block'
+                document.querySelector('.pause').style.display = 'none'
+            }
+        }
+
+        function init() {
+            audioEl.addEventListener('loadedmetadata', function () {
+                audioDuration = audioEl.duration
+            })
+            audioEl.addEventListener('timeupdate', function () {
+                let progress = Math.ceil(1e4 * audioEl.currentTime / audioEl.duration) / 100
+                progressBarEl.style.width = progress + '%'
+                progressDotEl.style.left = progress + '%'
+            })
+            audioEl.addEventListener('ended', function () {
+                state.isPlay = false
+                setAudioState()
+                audioEl.currentTime = 0
+            })
+            document.querySelector('.audio-btn').addEventListener('click', function () {
+                state.isPlay = !state.isPlay
+                setAudioState()
+            })
+            progressBoxEl.addEventListener('click', function (e) {
+                let progress = Math.ceil(100 * e.offsetX / progressBoxEl.offsetWidth)
+                progressBarEl.style.width = progress + '%'
+                progressDotEl.style.left = progress + '%'
+                audioEl.currentTime = audioDuration * (progress / 100)
+            })
+
+            function setAudiSrc() {
+                
+            }
+        }
+
+        init()
+
+        return {
+            state, $refs
+        }
+
+    })();
+
+    console.log(audioPlayer);
+</script>
+
+</html>

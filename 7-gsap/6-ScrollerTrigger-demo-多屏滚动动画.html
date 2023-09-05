@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <title>6-ScrollerTrigger-demo-多屏滚动动画</title>
+    <style>
+        html {
+            font-size: 0.8vw !important;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        #app {
+
+        }
+
+        div, img {
+            display: block;
+        }
+
+        .screen {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            text-align: center;
+            line-height: 100vh;
+            background-color: #e17a8c;
+        }
+
+        .screen1 {
+            background: #ff7875;
+        }
+
+        .screen2 {
+            background: #ffc53d;
+        }
+
+        .screen3 {
+            background: #1890ff;
+        }
+
+        .poster-group {
+            position: relative;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .poster {
+            position: absolute;
+            top: 50%;
+            width: 18em;
+            transform: translateY(-50%);
+            border-radius: 10px;
+        }
+
+        #p1, #p2, #p3 {
+            left: 53.5em;
+        }
+
+        #p4, #p5 {
+            right: 53.5rem;
+        }
+
+        #p1, #p5 {
+            z-index: 8;
+            width: 14em;
+        }
+
+        #p2, #p4 {
+            z-index: 9;
+            width: 16em;
+        }
+
+        #p3 {
+            z-index: 10;
+            opacity: 1;
+        }
+
+        .screen3 video {
+            position: relative;
+            /*width: 100%;*/
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div class="screen screen1">
+        <h1>向下滚动屏幕↓</h1>
+    </div>
+    <div class="screen screen2">
+        <div class="poster-group">
+            <img alt="" class="poster" id="p1" src="./images/p1.jpg">
+            <img alt="" class="poster" id="p2" src="./images/p2.jpg">
+            <img alt="" class="poster" id="p3" src="./images/p3.jpg">
+            <img alt="" class="poster" id="p4" src="./images/p4.jpg">
+            <img alt="" class="poster" id="p5" src="./images/p5.jpg">
+        </div>
+    </div>
+    <div class="screen screen3">
+        <video src="https://www.mercedes-benz.com.cn/content/dam/mb-cn/vehicles/coupe/cls-coupe/802/kv/CLS-KV-Video-P.m4v">
+            <source src="https://www.mercedes-benz.com.cn/content/dam/mb-cn/vehicles/coupe/cls-coupe/802/kv/CLS-KV-Video-P.m4v">
+        </video>
+    </div>
+    <div class="screen">
+        <h1>END</h1>
+    </div>
+</div>
+<script src="./lib/gsap.js"></script>
+<script src="./lib/ScrollTrigger.js"></script>
+<script>
+  let t1 = gsap.timeline({defaults: {duration: 1, ease: 'power1.out'}})
+  t1.fromTo('#p3', {width: '18em', left: '53.5em'}, {width: '30em', left: '47.5em'})
+  t1.fromTo('#p2', {width: '16em', left: '53.5em'}, {width: '26em', left: '26em'}, "<")
+  t1.fromTo('#p4', {width: '16em', right: '53.5em'}, {width: '26em', right: '26em'}, "<")
+  t1.fromTo('#p1', {width: '14em', left: '53.5em'}, {width: '22em', left: '6em'}, "<")
+  t1.fromTo('#p5', {width: '14em', right: '53.5em'}, {width: '22em', right: '6em'}, "<")
+
+  ScrollTrigger.create({
+    trigger: '.screen2',
+    start: 'top top',
+    end: '+=' + window.innerHeight,
+    animation: t1,
+    pin: true,
+    scrub: true,
+    // markers: true
+  })
+
+  const videoEl = document.querySelector('.screen3 video')
+  ScrollTrigger.create({
+    trigger: '.screen3',
+    start: 'top top',
+    end: '+=2000',
+    pin: true,
+    scrub: true,
+    markers: true,
+    onUpdate: (self) => {
+      console.log(self.progress)
+      try {
+        videoEl.currentTime = (self.progress * videoEl.duration).toFixed(5)
+      } catch (e) {
+        console.log(e)
+      }
+    }
+  })
+
+</script>
+</body>
+</html>

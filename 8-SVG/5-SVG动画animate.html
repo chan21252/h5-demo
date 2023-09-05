@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>5-SVG动画animate</title>
+</head>
+<body>
+<svg width="800" height="300">
+    <g>
+        <rect width="100" height="100" fill="#f00">
+            <animate attributeName="x" attributeType="XML"
+                     from="0" to="200" dur="2s" repeatCount="indefinite"  begin="0" fill="freeze"></animate>
+            <animate attributeName="fill" attributeType="XML"
+                     values="#f00;#f05;#f0a;#f0f" keyTimes="0;0.1;0.9;1" dur="2s" repeatCount="indefinite"  begin="0" fill="freeze"></animate>
+        </rect>
+    </g>
+</svg>
+</body>
+</html>

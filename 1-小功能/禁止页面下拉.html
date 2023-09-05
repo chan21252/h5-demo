@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <title>禁止页面下拉</title>
+  <link href="../common/css/reset.css" rel="stylesheet">
+  <link href="../common/css/common.css" rel="stylesheet">
+  <style>
+    html, body, #app {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+    #app {
+      border: solid 1px var(--primary-color);
+    }
+    #scroller {
+      height: 100px;
+      overflow-x: hidden;
+      overflow-y: scroll;
+      border: solid 1px var(--primary-color);
+      margin: 20px 0;
+    }
+    input[type=text] {
+      padding-left: 1em;
+      border: solid 1px var(--primary-color);
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <h2>页面无法下拉</h2>
+    <div id="scroller">
+      <ul>
+        <li>p1</li>
+        <li>p2</li>
+        <li>p3</li>
+        <li>p4</li>
+        <li>p5</li>
+        <li>p6</li>
+      </ul>
+    </div>
+    <div >
+      <input type="text" placeholder="输入框" />
+    </div>
+  </div>
+  <script src="https://unpkg.com/vconsole@3.14.6/dist/vconsole.min.js"></script>
+  <script>
+    var vConsole = new window.VConsole();
+    document.body.addEventListener(
+      'touchmove',
+      function (event) {
+        console.log(event)
+        console.log(event._isScroller)
+        // 阻止页面的默认行为
+        event.preventDefault();
+      },
+      {passive: false}  // 主动告诉浏览器阻止默认行为
+    );
+  </script>
+</body>
+</html>

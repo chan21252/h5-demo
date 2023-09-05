@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title></title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            border: none;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+<div></div>
+<script src="js/pixi-7.2.4.js"></script>
+<script>
+  // https://www.codeandweb.com/texturepacker/tutorials/how-to-create-sprite-sheets-and-animations-with-pixijs
+  const app = new PIXI.Application({
+    autoStart: true,
+    resizeTo: window,
+    backgroundColor: 0xffffff,
+    antialias: true
+  })
+  document.body.appendChild(app.view)
+  let resource = './img/god-1.json'
+  PIXI.Assets.load([resource])
+      .then((resources) => {
+        console.log(resources)
+        let textures = resources[resource].textures
+        let frames = Object.keys(textures).map(key => textures[key])
+        const god = new PIXI.AnimatedSprite(frames)
+        god.animationSpeed = 0.2
+        god.anchor.set(0.5)
+        god.position.set(app.screen.width / 2, app.screen.height / 2)
+        god.play()
+        app.stage.addChild(god)
+  })
+
+</script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title></title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+<div></div>
+<script src="js/pixi-7.2.4.js"></script>
+<script>
+    let app = new PIXI.Application({
+        width: window.innerWidth,
+        height: window.innerHeight,
+        backgroundColor: 0xf07c82,
+        resolution: window.devicePixelRatio || 1,
+        antialias: true,
+    });
+
+    document.body.appendChild(app.view);
+
+    const title = new PIXI.Text('梦幻西游', {
+        fontFamily: 'Arial',
+        fontSize: 200,
+        fill: 0xfcd337,
+        align: 'center',
+    });
+    title.anchor.set(0.5, 0.5);
+    title.x = app.screen.width / 2;
+    title.y = app.screen.height / 2;
+    app.stage.addChild(title);
+
+    const sword = PIXI.Sprite.from('./img/sword.png');
+    app.stage.addChild(sword);
+
+    const bg = PIXI.Sprite.from('./img/bg.jpg');
+    console.log(title.width, title.height);
+    bg.width = title.width;
+    bg.height = title.height;
+    bg.x = app.screen.width / 2;
+    bg.y = app.screen.height / 2;
+    bg.anchor.set(0.5, 0.5);
+
+    bg.mask = title;
+    app.stage.addChild(bg);
+
+
+</script>
+</body>
+</html>

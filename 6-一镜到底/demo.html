@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <title></title>
+    <link rel="stylesheet" href="./style/reset.css">
+    <style>
+        #loading {
+            width: 100vw;
+            height: 100vh;
+            text-align: center;
+            line-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+<div id="loading"></div>
+<div id="stage"></div>
+<script src="./lib/pixi.min.js"></script>
+<script src="./lib/alloy-touch.js"></script>
+<script src="./lib/TweenMax.min.js"></script>
+<script>
+  let imageArr = []
+  for(let i = 1; i <= 52; i++){
+    let temp='./images/x' + i + '.png'
+    imageArr.push(temp)
+  }
+  let imageP1 = './images/p1-p1.png'
+
+  PIXI.loader
+      .add(imageP1)
+      .add(imageArr)
+      .on('progress', function(loader, resource) {
+        console.log(loader.progress)
+        document.getElementById('loading').innerHTML = Math.floor(loader.progress) + '%'
+      })
+      .load(setup)
+
+  function setup() {
+    document.getElementById('loading').style.display = 'none'
+    const app = new PIXI.Application({
+      width: window.innerWidth,
+      height: window.innerHeight,
+      backgroundColor: 0xf8f8f8,
+      // resolution: window.devicePixelRatio || 1,
+      antialias: true,
+    })
+
+    document.getElementById('stage').appendChild(app.view)
+    let text = new PIXI.Text('向上滑动', {
+      fontSize: 18,
+    })
+    text.anchor.set(0.5)
+    text.position.set(window.innerWidth / 2, window.innerHeight / 2)
+
+    let sprite = PIXI.Sprite.from(imageP1)
+    sprite.anchor.set(0.5)
+    sprite.scale.set(0.5)
+    sprite.alpha = 0
+    sprite.position.set(window.innerWidth / 2, window.innerHeight / 2)
+    app.stage.addChild(sprite)
+
+    app.stage.addChild(text)
+
+    let sprite2 = PIXI.Sprite.from(imageArr[0])
+    let scale = window.innerHeight / sprite2.height
+    sprite2.scale.set(scale)
+    sprite2.alpha = 0
+    sprite2.position.set(- (sprite2.width * (567 / 1318) - window.innerWidth * 0.5), 0)
+    app.stage.addChild(sprite2)
+
+    let moveMin = -(10800 - 750)
+    const alloyTouch = new AlloyTouch({
+      touch: 'body',
+      vertical: true, //不必需，默认是true代表监听竖直方向touch
+      target: {y: 0}, //运动的对象
+      property: "y",  //被运动的属性
+      min: moveMin,     //不必需,运动属性的最小值
+      max: 0,         //不必需,滚动属性的最大值
+      sensitivity: 1, //不必需,触摸区域的灵敏度，默认值为1，可以为负数
+      factor: 1,      //不必需,表示触摸位移运动位移与被运动属性映射关系，默认值是1
+      moveFactor: 1,  //不必需,表示touchmove位移与被运动属性映射关系，默认值是1
+      step: 45,       //用于校正到step的整数倍
+      bindSelf: false,
+      maxSpeed: 1,  //不必需，触摸反馈的最大速度限制
+      value: 0,
+      change: function (value) {
+        let progress = value / moveMin
+        // console.log(progress)
+        allTimeLine.seek(progress)
+        animationPlay(progress)
+      },
+      touchStart: function (evt, value) {
+      },
+      touchMove: function (evt, value) {
+      },
+      touchEnd: function (evt, value) {
+      },
+      tap: function (evt, value) {
+      },
+      pressMove: function (evt, value) {
+      },
+      animationEnd: function (value) {
+      } //运动结束
+    })
+
+    let allTimeLine = new TimelineMax({paused: true})     // 主时间轴
+    let timeline1 = new TimelineMax({delay: 0})         // 时间轴1
+    let tweenmaxText = new TweenMax(text, 0.05, {alpha: 0})
+    timeline1.add(tweenmaxText, 0)
+
+    let tweenmax1 = new TweenMax(sprite, 0.2, {alpha: 1})
+    timeline1.add(tweenmax1, 0.05)
+
+    let tweenmax2 = new TweenMax(sprite2, 0.1, {alpha: 1})
+    timeline1.add(tweenmax2, 0.2)
+
+    let tweenmax3 = new TweenMax(sprite, 0.1, {alpha: 0})
+    timeline1.add(tweenmax3, 0.3)
+
+    allTimeLine.add(timeline1)
+
+    function animationPlay(progress) {
+      const startProgress = 0.4
+      if (progress > startProgress) {
+        let imageNum = imageArr.length
+        let index = Math.floor(imageNum * (progress - startProgress) / 0.2)
+        if (index > imageNum - 1) {
+          index = imageNum - 1
+        }
+        sprite2.texture = PIXI.Texture.from(imageArr[index])
+      }
+    }
+  }
+</script>
+</body>
+</html>

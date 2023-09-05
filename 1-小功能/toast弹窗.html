@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <title>Toast弹窗</title>
+</head>
+<body>
+<div id="app">
+    <button onclick="toast(Date.now(), 2000)">显示toast内容</button>
+</div>
+</body>
+<script>
+  const toast = (function () {
+    const defaultTimeout = 3000
+    const state = reactive({
+      message: '',
+      timeout: defaultTimeout
+    })
+    let timer = null
+    const toastEl = document.createElement('div')
+
+    init()
+    function init() {
+      setStyle()
+      document.body.appendChild(toastEl)
+    }
+
+    function setStyle() {
+      toastEl.style.position = 'fixed'
+      toastEl.style.left = '50%'
+      toastEl.style.top = '50%'
+      toastEl.style.minWidth = '30px'
+      toastEl.style.padding = '5px 10px'
+      toastEl.style.transform = 'translate(-50%, -50%)'
+      toastEl.style.textAlign = 'center'
+      toastEl.style.fontSize = '14px'
+      toastEl.style.lineHeight = '24px'
+      toastEl.style.backgroundColor = 'rgba(0, 0, 0, 0.5)'
+      toastEl.style.color = '#fff'
+      toastEl.style.borderRadius = '5px'
+      toastEl.style.transition = 'all ease-out .5s'
+      toastEl.style.zIndex = '9999'
+      toastEl.style.display = 'none'
+      toastEl.style.opacity = '0'
+    }
+
+    function show(newMessage, timeout = 3000) {
+      state.timeout = timeout
+      state.message = newMessage
+    }
+
+    function reactive(target) {
+      if (typeof target !== 'object' || target == null) {
+        return target
+      }
+      return new Proxy(target, {
+        get(target, prop) {
+          return Reflect.get(target, prop)
+        },
+        set(target, prop, value) {
+          Reflect.set(target, prop, value)
+          if (prop === 'message') {
+            updateView()
+          }
+        }
+      })
+    }
+
+    function updateView() {
+      if (timer) {
+        clearTimeout(timer)
+      }
+      toastEl.innerHTML = state.message
+      toastEl.style.opacity = '1'
+      toastEl.style.display = 'block'
+      timer = setTimeout(function () {
+        toastEl.style.opacity = '0'
+        state.timeout = defaultTimeout
+        clearTimeout(timer)
+        let hiddenTimer = setTimeout(function () {
+          toastEl.style.display = 'none'
+          clearTimeout(hiddenTimer)
+        }, 500)
+      }, state.timeout)
+    }
+
+    return show
+  })()
+
+</script>
+</html>

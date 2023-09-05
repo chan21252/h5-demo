@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>7-SVG动画animateMotion</title>
+</head>
+<body>
+<svg width="800" height="800">
+    <g>
+        <path id="path" d="M 10 80 C 40 10, 65 10, 95 80 S 150 150, 180 80" stroke="blue" fill="transparent"/>
+        <path d="M -10 -3 L 10 -3 L 0 -20 Z " fill="yellow" stroke="red">
+<!--            <animateMotion path="M 10 80 C 40 10, 65 10, 95 80 S 150 150, 180 80"-->
+<!--                    rotate="auto" dur="6s" fill="freeze" repeatCount="indefinite">-->
+<!--            </animateMotion>-->
+            <animateMotion rotate="auto" dur="3s" fill="freeze" repeatCount="1">
+                <mpath xlink:href=" #path"/>
+            </animateMotion>
+        </path>
+    </g>
+    <g>
+        <text x="100" y="200" text-anchor="middle" style="visibility: hidden">
+            <set attributeName="visibility" to="visible" dur="1s" begin="3s" fill="freeze"/>
+            animate completed!
+        </text>
+    </g>
+</svg>
+</body>
+</html>
