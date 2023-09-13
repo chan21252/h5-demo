@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>音频播放器</title>
     <style>
         * {
@@ -13,12 +13,18 @@
             box-sizing: border-box;
         }
 
+        body {
+            font-size: 14px;
+            --theme-color: #048ac3;
+        }
+
         .audio-container {
             position: relative;
             left: 0;
             top: 0;
-            width: 300px;
-            height: 60px;
+            width: 375px;
+            height: 80px;
+            padding: 0 10px;
             background: #fff;
             border-radius: 5px;
             box-shadow: 0 0 6px 0 rgba(114, 103, 74, .2);
@@ -29,15 +35,44 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            height: 60px;
+        }
+
+        .audio-title {
+            width: 100%;
+            margin-top: -10px;
+            text-align: center;
+            line-height: 20px;
+        }
+
+        .audio-controls .audio-btn-group {
+            width: 90px;
+            height: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+        }
+
+        .audio-btn-group .btn {
+            position: relative;
+            top: 20px;
+            width: 20px;
+            height: 20px;
+        }
+
+        .audio-btn-group .btn > img {
+            width: 100%;
             height: 100%;
         }
 
-        .audio-controls .audio-btn {
+        .audio-btn-group .audio-play {
+            position: relative;
+            top: 10px;
             width: 40px;
             height: 40px;
         }
 
-        .audio-controls .audio-btn .icon {
+        .audio-controls .audio-play .icon {
             width: 100%;
             height: 100%;
             background-size: 100%;
@@ -51,11 +86,17 @@
             background: url(./pause.png) no-repeat;
         }
 
-        .audio-controls .audio-progress-box {
+        .audio-controls .audio-progress {
             position: relative;
-            width: 76%;
-            height: 3px;
-            margin-left: 5px;
+            width: 100%;
+            height: 100%;
+            padding: 28px 10px 28px 10px;
+        }
+
+        .audio-progress-box {
+            position: relative;
+            width: 100%;
+            height: 100%;
             background: #c6c6c6;
             border-radius: 3px;
         }
@@ -63,7 +104,7 @@
         .audio-progress-bar {
             width: 0;
             height: 100%;
-            background: #048ac3;
+            background: var(--theme-color);
         }
 
         .audio-progress-dot {
@@ -71,95 +112,240 @@
             top: -3px;
             width: 10px;
             height: 10px;
-            background: #048ac3;
+            background: var(--theme-color);
             border-radius: 5px;
         }
     </style>
 </head>
 
 <body>
-    <div class="audio-container">
-        <div class="audio-controls">
-            <div class="audio-btn">
+<div class="audio-container" id="audio-player">
+    <div class="audio-controls">
+        <div class="audio-btn-group">
+            <div class="btn btn-prev">
+                <img alt="" src="prev.svg">
+            </div>
+            <div class="audio-play">
                 <div class="icon play"></div>
                 <div class="icon pause" style="display: none;"></div>
             </div>
+            <div class="btn btn-next">
+                <img alt="" src="next.svg">
+            </div>
+        </div>
+        <div class="audio-progress">
             <div class="audio-progress-box">
                 <div class="audio-progress-bar"></div>
                 <div class="audio-progress-dot"></div>
             </div>
         </div>
-        <audio src="./audio.mp3" preload="auto"></audio>
+
     </div>
+    <div class="audio-title">梅花三弄</div>
+    <audio preload="auto" src></audio>
+</div>
 </body>
 <script>
-    // https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/audio
-    const audioPlayer = (function () {
-        const state = {
-            isPlay: false,
-            audioDuration: 0
+  const isTouch = 'ontouchstart' in window;
+  const mouseEvents = (isTouch) ?
+      {
+        down: 'touchstart',
+        move: 'touchmove',
+        up: 'touchend',
+        out: 'touchcancel'
+      }
+      :
+      {
+        down: 'mousedown',
+        move: 'mousemove',
+        up: 'mouseup',
+        out: 'mouseout'
+      };
+
+  // https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/audio
+  function AudioPlayer(playList) {
+    const state = {
+      playList: playList,   //播放量列表
+      playIndex: 0, //
+      progress: 0,          // 播放进度
+      isPlay: false,        // 播放状态
+      isDrag: false,        // 进度条拖拽
+      dotDrag: {
+        lastX: 0,
+      },
+      audioDuration: 0,
+      progressBarLength: 0
+    }
+    const audioEl = document.querySelector('#audio-player audio')
+    const progressEl = document.querySelector('#audio-player .audio-progress')
+    const progressBoxEl = document.querySelector('#audio-player .audio-progress-box')
+    const progressBarEl = document.querySelector('#audio-player .audio-progress-bar')
+    const progressDotEl = document.querySelector('#audio-player .audio-progress-dot')
+
+    const prevBtnEl = document.querySelector('.audio-btn-group .btn-prev')
+    const nextBtnEl = document.querySelector('.audio-btn-group .btn-next')
+
+    const titleEl = document.querySelector('#audio-player .audio-title')
+
+    audioEl.setAttribute("src", state.playList[0].src)
+    titleEl.innerHTML = state.playList[0].title
+    state.progressBarLength = progressBoxEl.offsetWidth
+
+    function play() {
+      if (state.isPlay) {
+        return
+      }
+      audioEl.play()
+      document.querySelector('.play').style.display = 'none'
+      document.querySelector('.pause').style.display = 'block'
+      state.isPlay = true
+    }
+
+    function pause() {
+      if (!state.isPlay) {
+        return
+      }
+      audioEl.pause()
+      document.querySelector('.play').style.display = 'block'
+      document.querySelector('.pause').style.display = 'none'
+      state.isPlay = false
+    }
+
+    function togglePlayStatus() {
+      if (state.isPlay) {
+        audioEl.pause()
+        document.querySelector('.play').style.display = 'block'
+        document.querySelector('.pause').style.display = 'none'
+      } else {
+        audioEl.play()
+        document.querySelector('.play').style.display = 'none'
+        document.querySelector('.pause').style.display = 'block'
+      }
+      state.isPlay = !state.isPlay
+    }
+
+    function changeAudioSource(index) {
+      audioEl.setAttribute("src", state.playList[index].src)
+      titleEl.innerHTML = state.playList[index].title
+      pause()
+      audioEl.currentTime = 0
+      state.progress = 0
+      progressBarEl.style.width = '0px'
+      progressDotEl.style.left = '0px'
+      state.playIndex = index
+    }
+
+    function init() {
+      audioEl.addEventListener('loadedmetadata', function () {
+        // 记录音频时长
+        state.audioDuration = audioEl.duration
+        // 解决初始化会调用timeupdate，progress=NaN的情况
+        state.progress = 0
+      })
+
+      // 播放进度条更新
+      audioEl.addEventListener('timeupdate', function () {
+        // let progress = Math.ceil(1e4 * audioEl.currentTime / audioEl.duration) / 100
+        state.progress = audioEl.currentTime / audioEl.duration
+        progressBarEl.style.width = state.progressBarLength * state.progress + 'px'
+        progressDotEl.style.left = state.progressBarLength * state.progress + 'px'
+      })
+
+      // 播放结束
+      audioEl.addEventListener('ended', function () {
+        pause()
+        audioEl.currentTime = 0
+        state.progress = 0
+      })
+
+      // 点击播放按钮
+      document.querySelector('.audio-play').addEventListener('click', togglePlayStatus)
+
+      // 点击进度条
+      progressBoxEl.addEventListener('click', function (e) {
+        state.progress = e.offsetX / state.progressBarLength
+        progressBarEl.style.width = e.offsetX + 'px'
+        progressDotEl.style.left = e.offsetX + 'px'
+        audioEl.currentTime = state.audioDuration * state.progress
+      })
+
+      progressDotEl.addEventListener('click', function (e) {
+        e.stopPropagation()     // 阻止冒泡，不会更新进度条位置
+      })
+
+
+      progressDotEl.addEventListener(mouseEvents.down, function (e) {
+        e.preventDefault()
+        state.isDrag = true
+        state.dotDrag.lastX = e.clientX || e.targetTouches[0].clientX
+      })
+
+      progressDotEl.addEventListener(mouseEvents.up, function (e) {
+        state.isDrag = false
+        state.dotDrag.lastX = 0
+      })
+
+      progressDotEl.addEventListener(mouseEvents.out, function (e) {
+        state.isDrag = false
+        state.dotDrag.lastX = 0
+      })
+
+      progressDotEl.addEventListener(mouseEvents.move, function (e) {
+        if (!state.isDrag) {
+          return
         }
+        let x = e.clientX || e.targetTouches[0].clientX
+        let distance = x - state.dotDrag.lastX
+        state.dotDrag.lastX = x
+        state.progress = state.progress + (distance / state.progressBarLength)
+        state.progress = state.progress > 1 ? 1 : state.progress < 0 ? 0 : state.progress
 
-        const audioEl = document.querySelector('audio')
-        const progressBoxEl = document.querySelector('.audio-progress-box')
-        const progressBarEl = document.querySelector('.audio-progress-bar')
-        const progressDotEl = document.querySelector('.audio-progress-dot')
+        progressBarEl.style.width = state.progressBarLength * state.progress + 'px'
+        progressDotEl.style.left = state.progressBarLength * state.progress + 'px'
+        audioEl.currentTime = state.audioDuration * state.progress
+      })
 
-        const $refs = {
-            audioEl, progressBarEl, progressDotEl
-        }
+      prevBtnEl.addEventListener('click', function () {
+        let index = (state.playIndex + 5) % state.playList.length
+        changeAudioSource(index)
+      })
 
-        function setAudioState() {
-            if (state.isPlay) {
-                audioEl.play()
-                document.querySelector('.play').style.display = 'none'
-                document.querySelector('.pause').style.display = 'block'
-            } else {
-                audioEl.pause()
-                document.querySelector('.play').style.display = 'block'
-                document.querySelector('.pause').style.display = 'none'
-            }
-        }
+      nextBtnEl.addEventListener('click', function () {
+        let index = (state.playIndex + 1) % state.playList.length
+        changeAudioSource(index)
+      })
+    }
 
-        function init() {
-            audioEl.addEventListener('loadedmetadata', function () {
-                audioDuration = audioEl.duration
-            })
-            audioEl.addEventListener('timeupdate', function () {
-                let progress = Math.ceil(1e4 * audioEl.currentTime / audioEl.duration) / 100
-                progressBarEl.style.width = progress + '%'
-                progressDotEl.style.left = progress + '%'
-            })
-            audioEl.addEventListener('ended', function () {
-                state.isPlay = false
-                setAudioState()
-                audioEl.currentTime = 0
-            })
-            document.querySelector('.audio-btn').addEventListener('click', function () {
-                state.isPlay = !state.isPlay
-                setAudioState()
-            })
-            progressBoxEl.addEventListener('click', function (e) {
-                let progress = Math.ceil(100 * e.offsetX / progressBoxEl.offsetWidth)
-                progressBarEl.style.width = progress + '%'
-                progressDotEl.style.left = progress + '%'
-                audioEl.currentTime = audioDuration * (progress / 100)
-            })
+    init()
+  }
 
-            function setAudiSrc() {
-                
-            }
-        }
-
-        init()
-
-        return {
-            state, $refs
-        }
-
-    })();
-
-    console.log(audioPlayer);
+  const playList = [
+    {
+      title: '街头叫卖声',
+      src: './audio/audio1.mp3'
+    },
+    {
+      title: '唱南音声',
+      src: './audio/audio2.mp3'
+    },
+    {
+      title: '闽南童谣',
+      src: './audio/audio3.mp3'
+    },
+    {
+      title: '讲古声',
+      src: './audio/audio4.mp3'
+    },
+    {
+      title: '泉州听雨声',
+      src: './audio/audio5.mp3'
+    },
+    {
+      title: '三分钟感受泉州的声音',
+      src: './audio/audio6.mp3'
+    },
+  ]
+  const audioPlayer = new AudioPlayer(playList)
 </script>
 
 </html>
