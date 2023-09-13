@@ -11,7 +11,7 @@
 </div>
 </body>
 <script>
-  const toast = (function () {
+  function Toast() {
     const defaultTimeout = 3000
     const state = reactive({
       message: '',
@@ -63,6 +63,7 @@
           if (prop === 'message') {
             updateView()
           }
+          return true
         }
       })
     }
@@ -86,7 +87,9 @@
     }
 
     return show
-  })()
+  }
+
+  const toast = new Toast()
 
 </script>
 </html>
