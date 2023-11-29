@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <title>axios-请求demo</title>
+</head>
+<body>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="axios-utils.js"></script>
+<script>
+  async function apiTest() {
+    let data = {
+      id: 1
+    }
+    let postResp = await api.post(data)
+    console.log('post resp :>> ', postResp)
+
+    let getResp = await api.get(data)
+    console.log('get resp :>> ', getResp)
+  }
+
+  apiTest()
+</script>
+</body>
+</html>
