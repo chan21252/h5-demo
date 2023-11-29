@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <title>b</title>
+    <script>
+      window.addEventListener("beforeunload", (event) => {
+        // Cancel the event as stated by the standard.
+        // event.preventDefault();
+        // Chrome requires returnValue to be set.
+        window.history.replaceState({}, null, window.location.href)
+      });
+    </script>
+</head>
+<body>
+<h1>B</h1>
+<h1 onclick="historyGo()">点我跳转A，history.go</h1>
+<script>
+  function historyGo() {
+    window.history.replaceState({}, null, 'a.html')
+    window.history.go(0)
+  }
+</script>
+</body>
+</html>
