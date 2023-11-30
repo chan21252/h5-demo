@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <title>响应式原理-v5</title>
+</head>
+<body>
+<script>
+  /*
+  缺陷：当前不支持嵌套的副作用函数，修改foo的值，却触发了内层bar的更新
+  分析：原因是当前激活的副作用函数只有一个，内层的会覆盖外层的
+  优化：用栈来记录要执行的副作用函数，执行前入栈，执行完毕后出栈
+  */
+  const bucket = new WeakMap()
+  const effectStack = []
+
+  function track(target, key) {
+    // console.log('track')
+    if (!activeEffect) return
+    let depsMap = bucket.get(target)
+    if (!depsMap) {
+      bucket.set(target, (depsMap = new Map()))
+    }
+    let deps = depsMap.get(key)
+    if (!deps) {
+      depsMap.set(key, (deps = new Set()))
+    }
+    deps.add(activeEffect)
+    activeEffect.deps.push(deps)
+  }
+
+  function trigger(target, key) {
+    const depsMap = bucket.get(target)
+    if (!depsMap) {
+      return
+    }
+    const effects = depsMap.get(key)
+    // effects && effects.forEach(fn => fn())
+    // 会无限循环，因为effects遍历调用副作用函数前，会delete当前的fn，然后fn里又触发track，fn又重新被添加进来
+    // 拷贝一下，防止无限循环
+    const effectsToRun = new Set(effects)
+    effectsToRun && effectsToRun.forEach(fn => fn())
+  }
+
+  const data = {
+    foo: 'foo',
+    bar: 'bar'
+  }
+  const obj = new Proxy(data, {
+    get(target, key) {
+      track(target, key)
+      return target[key]
+    },
+    set(target, key, newValue) {
+      target[key] = newValue
+      trigger(target, key)
+      return true
+    }
+  })
+
+  // 消除所有deps集合对effectFn的依赖
+  function cleanup(effectFn) {
+    for (let i = 0; i < effectFn.deps.length; i++) {
+      effectFn.deps[i].delete(effectFn)
+    }
+    effectFn.deps.length = 0
+  }
+
+  let activeEffect = null
+  const effect = (fn) => {
+    const effectFn = () => {
+      cleanup(effectFn)
+      activeEffect = effectFn
+      fn()
+    }
+
+    effectFn.deps = []
+    effectFn()
+  }
+
+  let temp1, temp2
+  effect(function effectFn1() {
+    console.log('effectFn1 执行...')
+    effect(function effectFn2() {
+      console.log('effectFn2 执行...')
+      temp2 = obj.bar
+    })
+    temp1 = obj.foo
+  })
+  setTimeout(() => {
+    obj.foo = 'foo1'
+  }, 1000)
+
+  // setTimeout(() => {
+  //   obj.bar = 'bar2'
+  // }, 2000)
+
+</script>
+</body>
+</html>
