@@ -13,7 +13,6 @@
   优化：用栈来记录要执行的副作用函数，执行前入栈，执行完毕后出栈
   */
   const bucket = new WeakMap()
-  const effectStack = []
 
   function track(target, key) {
     // console.log('track')
@@ -39,8 +38,13 @@
     // effects && effects.forEach(fn => fn())
     // 会无限循环，因为effects遍历调用副作用函数前，会delete当前的fn，然后fn里又触发track，fn又重新被添加进来
     // 拷贝一下，防止无限循环
-    const effectsToRun = new Set(effects)
-    effectsToRun && effectsToRun.forEach(fn => fn())
+    const effectsToRun = new Set()
+    effects && effects.forEach(effectFn => {
+      if (effectFn != activeEffect) {
+        effectsToRun.add(effectFn)
+      }
+    })
+    effectsToRun && effectsToRun.forEach(effectFn => effectFn())
   }
 
   const data = {
@@ -68,15 +72,20 @@
   }
 
   let activeEffect = null
+  const effectStack = []
   const effect = (fn) => {
     const effectFn = () => {
       cleanup(effectFn)
       activeEffect = effectFn
-      fn()
+      effectStack.push(effectFn)
+      fn()  //执行的会读取值，触发track
+      effectStack.pop()
+      activeEffect = effectStack[effectStack.length - 1]
     }
 
     effectFn.deps = []
     effectFn()
+    
   }
 
   let temp1, temp2
@@ -88,13 +97,14 @@
     })
     temp1 = obj.foo
   })
+
   setTimeout(() => {
     obj.foo = 'foo1'
   }, 1000)
 
-  // setTimeout(() => {
-  //   obj.bar = 'bar2'
-  // }, 2000)
+  setTimeout(() => {
+    obj.bar = 'bar2'
+  }, 2000)
 
 </script>
 </body>
