@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scale=0"
+          name="viewport">
+    <title>Rem适配方案</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+
+        div {
+            box-sizing: border-box;
+        }
+
+        .container {
+            width: 100vw;
+            height: 100vh;
+            background: url('../common/assets/data_screen_bg.jpg') no-repeat;
+            background-size: cover;
+        }
+
+        .screen {
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            width: 19.2rem;
+            height: 10.8rem;
+            background: linear-gradient(135deg, #00d9ff, #00a5eb);
+            transform: translate(-50%, -50%);
+        }
+
+        .top {
+            position: absolute;
+            left: 10px;
+            top: 10px;
+            width: 100px;
+            height: 100px;
+            background: pink;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="screen">
+        <div class="top"></div>
+        <div class="bottom"></div>
+    </div>
+</div>
+<script>
+  const screen = document.querySelector('.screen')
+
+  const setRem = (w = 1920, h = 1080) => {
+    const ww = window.innerWidth / w
+    const wh = window.innerHeight / h
+    const scale = ww < wh ? ww : wh
+    const rem = scale * 100
+    document.documentElement.style.fontSize = rem + 'px'
+  }
+
+  setRem()
+  window.onresize = () => {
+    setRem()
+  }
+
+</script>
+</body>
+</html>
