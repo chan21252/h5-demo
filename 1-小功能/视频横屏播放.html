@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+      name="viewport"
+    />
+    <title>检测屏幕方向锁定</title>
+    <link href="../common/css/reset.css" rel="stylesheet" />
+    <link href="../common/css/common.css" rel="stylesheet" />
+    <style>
+      html,
+      body {
+        height: 100%;
+        overflow: hidden;
+      }
+
+      #app {
+        -webkit-font-smoothing: antialiased;
+        width: 100%;
+        height: 100%;
+        font-size: 18px;
+      }
+
+      .full {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      .full .player {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+      }
+
+      .poster {
+        width: 100%;
+        height: 100%;
+      }
+
+      .play {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 60px;
+        height: 60px;
+        transform: translate(-50%, -50%);
+      }
+
+      .full #video-box {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        transition: transform 0.5s;
+        -webkit-transition: transform 0.5s;
+      }
+
+      #video-box .video {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+      }
+
+      #video-box #back {
+        position: absolute;
+        left: 10px;
+        top: 10px;
+        width: 32px;
+      }
+
+      video {
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="full">
+        <div class="player" id="player">
+          <img
+            alt=""
+            class="poster"
+            id="poster"
+            src="../common/assets/poster.jpg"
+          />
+          <img alt="" class="play" src="../common/assets/play.png" />
+        </div>
+        <div class="hidden" id="video-box">
+          <video
+            class="video"
+            controls
+            id="video"
+            playsinline="playsinline"
+            preload="auto"
+            src="https://cloudvideo.thepaper.cn/video/06dac0febafd489296d281dc774fe962/hd/20240514193839154fb58557a-a5f2-4809-93fb-376a23676b40-030b5117-b259-c1a3-07fb-532eed837fd0.mp4"
+            webkit-playsinline="true"
+            x-webkit-airplay="true"
+          ></video>
+          <img alt="" id="back" src="../common/assets/back.png" />
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="https://unpkg.com/vconsole@3.15.1/dist/vconsole.min.js"></script>
+  <script>
+    const vConsole = new window.VConsole()
+    const $app = document.getElementById('app')
+    const $video = document.getElementById('video')
+    const $player = document.getElementById('player')
+    const $videoBox = document.getElementById('video-box')
+    const $back = document.getElementById('back')
+    const resizeEvt =
+      'orientationchange' in window ? 'orientationchange' : 'resize'
+    window.addEventListener(resizeEvt, function () {
+      calcFrame()
+    })
+
+    $player.addEventListener('click', function () {
+      $videoBox.style.display = 'block'
+      $video.play()
+      landscapeFullScreen($videoBox)
+    })
+
+    $back.addEventListener('click', function () {
+      $videoBox.style.display = 'none'
+      $video.pause()
+      $video.currentTime = 0
+    })
+
+    function landscapeFullScreen($el) {
+      const actionWidth = window.innerWidth
+      const actionHeight = window.innerHeight
+      console.log(actionWidth, actionHeight)
+      let isHorizontal = actionWidth > actionHeight
+      $el.style.width = actionHeight + 'px'
+      $el.style.height = actionWidth + 'px'
+      $el.style.transform = 'rotate(90deg) translateY(-100%)'
+      $el.style.transformOrigin = 'left top'
+    }
+
+    window.onload = function () {
+      calcFrame()
+    }
+
+    // 微信浏览器中，iOS可以自动播放，安卓不支持
+    document.addEventListener(
+      'WeixinJSBridgeReady',
+      function () {
+        $video.play()
+      },
+      false,
+    )
+
+    function calcFrame() {
+      const actionWidth = window.innerWidth
+      const actionHeight = window.innerHeight
+      console.log(actionWidth, actionHeight)
+      let isHorizontal = actionWidth > actionHeight
+      if (!isHorizontal) {
+        $videoBox.style.width = actionHeight + 'px'
+        $videoBox.style.height = actionWidth + 'px'
+        $videoBox.style.transform = 'rotate(90deg) translateY(-100%)'
+        $videoBox.style.transformOrigin = 'left top'
+      } else {
+        $videoBox.style.width = ''
+        $videoBox.style.height = ''
+        $videoBox.style.transform = ''
+        $videoBox.style.transformOrigin = ''
+      }
+    }
+  </script>
+</html>

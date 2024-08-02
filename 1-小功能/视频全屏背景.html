@@ -6,7 +6,7 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
       name="viewport"
     />
-    <title>视频自动播放</title>
+    <title>视频全屏背景</title>
     <link href="../common/css/reset.css" rel="stylesheet" />
     <link href="../common/css/common.css" rel="stylesheet" />
     <style>
@@ -16,16 +16,19 @@
         position: relative;
         width: 100%;
         height: 100%;
+        overflow: hidden;
       }
 
       .video-wrap {
-        position: relative;
+        position: absolute;
+        left: 0;
+        top: 0;
         width: 100%;
-        height: auto;
+        height: 100%;
+        overflow: hidden;
       }
 
-      .video-wrap video {
-        position: relative;
+      .video-wrap > video {
         width: 100%;
         height: 100%;
         object-fit: fill;
@@ -34,52 +37,17 @@
   </head>
   <body>
     <div id="app">
-      <p>下方视频可以在Safari和Chrome自动播放，默认静音</p>
       <div class="video-wrap">
         <!-- https://developer.mozilla.org/zh-CN/docs/web/html/element/video -->
         <video
           autoplay
-          controls
+          id="video"
           muted
           playsinline
-          poster="../common/assets/poster.jpg"
           preload="auto"
-          src="https://cloudvideo.thepaper.cn/video/d04e82ff95e34c61a2ad8d04643a7e07/hd/df76b673-b446-4440-a186-6392e442650a-484ac668-5c57-b20d-c656-e2beb799e9ab.mp4"
-        ></video>
-      </div>
-
-      <p>
-        下方视频可以iOS微信自动播放，Android微信不支持，点击后播放。H5视频背景demo
-      </p>
-      <div class="video-wrap">
-        <!-- https://developer.mozilla.org/zh-CN/docs/web/html/element/video -->
-        <video
-          autoplay
-          id="video2"
-          muted
-          playsinline
-          poster="../common/assets/poster.jpg"
-          preload="auto"
-          src="https://cloudvideo.thepaper.cn/video/d04e82ff95e34c61a2ad8d04643a7e07/hd/df76b673-b446-4440-a186-6392e442650a-484ac668-5c57-b20d-c656-e2beb799e9ab.mp4"
+          src="https://cloudvideo.thepaper.cn/video/d576e44dae6449f3964ed7300fbccfe7/hd/20240606091255487c3e4f356-8777-4b63-aa6e-61e4a80c2524-967c9a79-0e20-369b-5459-3114fa498f3f.mp4"
           webkit-playsinline="true"
           x-webkit-airplay="true"
-        ></video>
-      </div>
-
-      <p>下方视频加入了一些Android微信的X5内核的属性</p>
-      <div class="video-wrap">
-        <!-- https://developer.mozilla.org/zh-CN/docs/web/html/element/video -->
-        <video
-          autoplay
-          controls
-          poster="../common/assets/poster.jpg"
-          preload="auto"
-          src="https://cloudvideo.thepaper.cn/video/d04e82ff95e34c61a2ad8d04643a7e07/hd/df76b673-b446-4440-a186-6392e442650a-484ac668-5c57-b20d-c656-e2beb799e9ab.mp4"
-          webkit-playsinline="true"
-          x-webkit-airplay="true"
-          x5-video-orientation="portraint"
-          x5-video-player-fullscreen="true"
-          x5-video-player-type="h5-page"
         ></video>
       </div>
     </div>
@@ -87,7 +55,7 @@
       videoAutoPlay()
 
       function videoAutoPlay() {
-        $video2 = document.getElementById('video2')
+        $video = document.getElementById('video')
         const ua = navigator.userAgent
         const isIOS = !!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)
 
@@ -101,7 +69,7 @@
           'WeixinJSBridgeReady',
           function () {
             if (isIOS && !state.playStatus) {
-              $video2.play()
+              $video.play()
               state.playStatus = true
             }
           },
@@ -110,7 +78,7 @@
 
         function clickPlayVideo() {
           if (!state.playStatus && !state.touched) {
-            $video2.play()
+            $video.play()
             state.playStatus = true
             state.touched = true
           }
