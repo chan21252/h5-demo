@@ -1,3 +1,7 @@
+### customize
+.stylelintcache
+.eslintcache
+
 ### VisualStudioCode template
 .vscode/*
 !.vscode/settings.json
