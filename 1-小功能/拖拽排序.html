@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <title>拖拽排序</title>
+    <style>
+      ul {
+        list-style: none;
+      }
+
+      li {
+        display: block;
+        list-style-type: none;
+      }
+
+      * {
+        padding: 0;
+        margin: 0;
+        user-select: none;
+      }
+
+      .list {
+        display: flex;
+        flex-direction: column;
+        width: 200px;
+        margin: 10px auto;
+      }
+
+      .item {
+        width: 100%;
+        height: 80px;
+        margin-bottom: 5px;
+        font-size: 18px;
+        line-height: 80px;
+        color: #fff;
+        text-align: center;
+        background-image: linear-gradient(45deg, #00a5eb, #4be5ff);
+        border-radius: 5px;
+      }
+
+      .item.move {
+        background: transparent;
+        border: 1px dashed #3c3c3c;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <ul class="list">
+        <li draggable="true" class="item">1</li>
+        <li draggable="true" class="item">2</li>
+        <li draggable="true" class="item">3</li>
+        <li draggable="true" class="item">4</li>
+        <li draggable="true" class="item">5</li>
+      </ul>
+    </div>
+  </body>
+  <script>
+    const list = document.querySelector('.list')
+    let sourceNode = void 0
+    list.addEventListener('dragstart', (e) => {
+      e.dataTransfer.effectAllowed = 'move'
+      // 异步设置拖拽源的样式
+      setTimeout(() => {
+        e.target.classList.add('move')
+      }, 0)
+
+      sourceNode = e.target
+    })
+
+    list.addEventListener('dragover', (e) => {
+      e.preventDefault()
+    })
+
+    list.addEventListener('dragend', (e) => {
+      e.preventDefault()
+      e.target.classList.remove('move')
+    })
+
+    list.addEventListener('dragenter', (e) => {
+      e.preventDefault()
+      if (e.target === list || e.target === sourceNode) {
+        return
+      }
+
+      const itemList = [...list.children]
+      const sourceIndex = itemList.indexOf(sourceNode)
+      const targetIndex = itemList.indexOf(e.target)
+
+      if (sourceIndex < targetIndex) {
+        // 向下
+        list.insertBefore(sourceNode, e.target.nextElementSibling)
+      } else {
+        // 向上
+        list.insertBefore(sourceNode, e.target)
+      }
+    })
+  </script>
+</html>
