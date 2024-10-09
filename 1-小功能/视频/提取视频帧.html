@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <title>提取视频帧</title>
+  </head>
+  <body>
+    <div id="app">
+      <div>
+        <label for="upload">选择视频</label>
+        <input type="file" accept="video/*" id="upload" />
+      </div>
+      <div id="preview-box"></div>
+    </div>
+  </body>
+  <script type="module"></script>
+  <script type="module">
+    const $input = document.querySelector('#upload')
+    const $previewBox = document.querySelector('#preview-box')
+
+    /**
+     * 提取视频帧
+     * @param video videoElement
+     * @param time  视频时间点
+     * @returns {Promise<unknown>} {blob, url}对象
+     */
+    const captureFrame = (video, time = 0) => {
+      return new Promise((resolve, reject) => {
+        video.currentTime = time
+        video.oncanplay = () => {
+          // canvas绘制视频帧
+          const cvs = document.createElement('canvas')
+          cvs.width = video.videoWidth
+          cvs.height = video.videoHeight
+          const ctx = cvs.getContext('2d')
+          ctx.drawImage(video, 0, 0, cvs.width, cvs.height)
+          cvs.toBlob((blob) => {
+            const url = URL.createObjectURL(blob)
+            return resolve({
+              blob,
+              url,
+            })
+          })
+        }
+      })
+    }
+
+    /**
+     * 预览图片
+     * @param url blob:url
+     */
+    const previewImage = (url) => {
+      const img = document.createElement('img')
+      img.src = url
+      img.width = 200
+      img.height = 112
+      $previewBox.appendChild(img)
+    }
+
+    $input.addEventListener('change', async (e) => {
+      const file = e.target.files[0]
+      $previewBox.innerHTML = ''
+      const video = document.createElement('video')
+      video.autoplay = true
+      video.muted = true
+      video.src = URL.createObjectURL(file)
+      video.oncanplay = async () => {
+        const num = 100 // 截取的帧数
+        const timeInterval = (video.duration / num) | 0 // 截取时间间隔
+        for (let i = 0; i < num; i++) {
+          const result = await captureFrame(video, i * timeInterval)
+          console.log(result)
+          previewImage(result.url)
+        }
+      }
+    })
+  </script>
+</html>
