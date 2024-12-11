@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>摄像头拍照</title>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+        border: none;
+      }
+
+      div,
+      img {
+        box-sizing: border-box;
+        display: block;
+      }
+
+      html,
+      body,
+      #app {
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      .page {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        background: #fff;
+      }
+
+      .video-wrap,
+      .photo-wrap {
+        position: relative;
+        width: 100%;
+        height: calc(100vw * 4 / 3);
+        background: #fff;
+      }
+
+      .video-wrap #video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      .video-wrap #tip {
+        position: absolute;
+        top: 30%;
+        width: 100%;
+        color: #333;
+        text-align: center;
+      }
+
+      .photo-wrap .photo {
+        width: 100%;
+      }
+
+      .control-wrap {
+        display: flex;
+        flex: 1;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        background: #fff;
+        border-top: 1px solid #eeeded;
+      }
+
+      .btn {
+        width: 60px;
+        height: 60px;
+        font-size: 14px;
+        line-height: 57px;
+        text-align: center;
+        background: #fff;
+        border: 3px solid #ff5a86;
+        border-radius: 50%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="app">
+      <div class="page camera-page">
+        <div class="video-wrap">
+          <video
+            id="video"
+            autoplay
+            muted
+            playsinline
+            webkit-playsinline="true"
+            x-webkit-airplay="true"
+          ></video>
+          <div id="tip">点击屏幕开启摄像头</div>
+        </div>
+        <div class="control-wrap">
+          <div class="btn" id="btn-take-photo">拍照</div>
+        </div>
+      </div>
+      <div class="page photo-page" style="display: none">
+        <div class="photo-wrap">
+          <img alt="" class="photo" src="" />
+        </div>
+        <div class="control-wrap">
+          <div class="btn" id="btn-back">返回</div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="https://unpkg.com/vconsole@latest/dist/vconsole.min.js"></script>
+  <script>
+    var vConsole = new window.VConsole()
+    let mediaStream = void 0
+
+    console.log('devicePixelRatio :>> ', window.devicePixelRatio)
+
+    const ua = navigator.userAgent.toLowerCase()
+    const isMobile =
+      /iphone|nokia|sony|ericsson|mot|samsung|sgh|lg|philips|panasonic|alcatel|lenovo|cldc|midp|wap|mobile/i.test(
+        ua,
+      ) && !/pc=1/.test(location.search)
+
+    let touched = false
+
+    const cameraRatio = 3 / 4 // 相机比例
+    const cameraWidth = window.innerWidth
+    const cameraHeight = cameraWidth / cameraRatio
+
+    const $video = document.querySelector('#video')
+    const $tip = document.getElementById('tip')
+    const $btnTakePhoto = document.querySelector('#btn-take-photo')
+    const $btnBack = document.querySelector('#btn-back')
+    const $photoPage = document.querySelector('.photo-page')
+    const $photo = document.querySelector('.photo-page .photo')
+
+    $video.width = cameraWidth
+    $video.height = cameraHeight
+
+    // 开启摄像头
+    function openCamera() {
+      const cameraOptions = {
+        facingMode: 'user', // 优先前置摄像头
+      }
+
+      const videoOptions = isMobile
+        ? cameraOptions
+        : { width: cameraWidth, height: cameraHeight, ...cameraOptions }
+
+      let constraints = {
+        audio: false,
+        video: videoOptions,
+      }
+
+      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        let mediaPromise = navigator.mediaDevices.getUserMedia(constraints)
+        mediaPromise
+          .then(function (stream) {
+            mediaStream = stream
+            $video.srcObject = stream
+            $video.play()
+            $tip.style.display = 'none'
+          })
+          .catch(function (err) {
+            console.log('mediaPromise error :>>', err)
+          })
+      } else {
+        console.log('无法获取media设备')
+      }
+    }
+
+    // 拍照
+    function takePhoto() {
+      let cvs = document.createElement('canvas')
+      cvs.width = cameraWidth * window.devicePixelRatio
+      cvs.height = cameraHeight * window.devicePixelRatio
+      const ctx = cvs.getContext('2d')
+      ctx.drawImage($video, 0, 0, cvs.width, cvs.height)
+      // $photo.src = cvs.toDataURL()
+      cvs.toBlob((blob) => {
+        $photo.src = URL.createObjectURL(blob)
+      })
+
+      console.log($photo.src)
+      $photoPage.style.display = 'flex'
+      // closeMedia()
+    }
+
+    function goBack() {
+      $photoPage.style.display = 'none'
+      $photo.src = ''
+    }
+
+    function onScreenTouched() {
+      if (touched) {
+        return
+      }
+      openCamera()
+      touched = true
+    }
+
+    document.body.addEventListener('touchend', onScreenTouched)
+    document.body.addEventListener('click', onScreenTouched)
+    $btnTakePhoto.addEventListener('click', takePhoto)
+    $btnBack.addEventListener('click', goBack)
+
+    $video.addEventListener('loadedmetadata', function () {})
+
+    // 关闭摄像头
+    function closeMedia() {
+      mediaStream.getTracks().forEach((track) => {
+        track.stop()
+      })
+      // $video.style.display = 'none'
+    }
+  </script>
+</html>
