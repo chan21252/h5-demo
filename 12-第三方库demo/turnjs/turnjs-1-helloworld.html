@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <title>Title</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f1f1f1;
+      }
+      #flipbook {
+        /* 翻页更自然 */
+        transition: margin-left 0.2s;
+      }
+
+      #flipbook .page {
+        background: #fff;
+        text-align: center;
+        line-height: 300px;
+        font-size: 24px;
+        box-shadow: inset 0 0 5px #666;
+      }
+
+      #flipbook .page-wrapper {
+        perspective: 2000px;
+      }
+
+      #flipbook .odd {
+        background-image: linear-gradient(to left, #fff 95%, #dadada 100%);
+      }
+
+      #flipbook .even {
+        background-image: linear-gradient(to left, #fff 95%, #dadada 100%);
+      }
+
+      .hard {
+        background: #ccc !important;
+        color: #333;
+        box-shadow: inset 0 0 5px #666;
+        font-weight: bold;
+      }
+
+      #flipbook .page > img {
+        box-shadow: inset 0 0 5px #666;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div id="flipbook">
+        <div class="hard">Turn.js</div>
+        <div class="hard"></div>
+        <div>Page 1</div>
+        <div>Page 2</div>
+        <div>Page 3</div>
+        <div>Page 4</div>
+        <div><img src="https://picsum.photos/200/300?random=1" alt="" /></div>
+        <div><img src="https://picsum.photos/200/300?random=2" alt="" /></div>
+        <div><img src="https://picsum.photos/200/300?random=3" alt="" /></div>
+        <div><img src="https://picsum.photos/200/300?random=4" alt="" /></div>
+        <div class="hard"></div>
+        <div class="hard"></div>
+      </div>
+    </div>
+  </body>
+  <script src="lib/jquery-3.7.1.min.js"></script>
+  <script src="lib/turn.min.js"></script>
+  <script>
+    ;(function ($) {
+      const options = {
+        acceleration: $.isTouch, //硬件加速, 默认true, 如果是触摸设备设置为true
+        width: 400,
+        height: 300,
+        display: 'double', // single/double
+        autoCenter: true,
+        shadow: $.isTouch,
+        inclination: 0,
+        page: 1,
+        when: {
+          start: function (event, page, pageObj) {
+            console.log(event, page, pageObj)
+          },
+        },
+      }
+      $('#flipbook').turn(options)
+    })(jQuery)
+  </script>
+</html>
