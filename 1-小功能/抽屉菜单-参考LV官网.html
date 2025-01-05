@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+      name="viewport"
+    />
+    <title>Title</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html,
+      body,
+      #app {
+        width: 100%;
+      }
+
+      .header {
+        width: 100%;
+        height: 56px;
+        background: #fff;
+        box-shadow: inset 0 -1px 0 0 #e1e1e1;
+      }
+
+      .header .nav {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+      }
+
+      .header .nav .item {
+        height: 100%;
+      }
+
+      .menu-toggler {
+        padding: 18px;
+      }
+
+      .menu-toggler .bars {
+        position: relative;
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+      }
+
+      .menu-toggler .bars::before,
+      .menu-toggler .bars::after,
+      .menu-toggler .bars > span::before,
+      .menu-toggler .bars > span::after {
+        content: '';
+        position: absolute;
+        display: block;
+        width: 100%;
+        height: 1px;
+        background: #333;
+        transform-origin: 50% 50%;
+        transition: transform 0.3s cubic-bezier(0.39, 0.575, 0.565, 1);
+      }
+
+      .menu-toggler .bars::before {
+        top: 1px;
+      }
+
+      .menu-toggler .bars::after {
+        top: 17px;
+      }
+
+      .menu-toggler .bars > span::before,
+      .menu-toggler .bars > span::after {
+        left: 50%;
+        top: 9px;
+        transform: translateX(-50%);
+      }
+
+      .menu-toggler.active .bars::before,
+      .menu-toggler.active .bars::after {
+        opacity: 0;
+        transform: scale(0);
+      }
+
+      .menu-toggler.active .bars > span::before {
+        transform: translateX(-50%) rotate(-45deg);
+      }
+
+      .menu-toggler.active .bars > span::after {
+        transform: translateX(-50%) rotate(45deg);
+      }
+
+      .menu-wrapper {
+        position: fixed;
+        top: 56px;
+        left: 0;
+        right: 0;
+        height: 0;
+        width: 100%;
+        opacity: 0;
+        background: #fff;
+        overflow-y: auto;
+        transition: all 0.3s cubic-bezier(0.39, 0.575, 0.565, 1);
+      }
+
+      .menu-wrapper.active {
+        height: calc(100vh - 56px);
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .menu-list {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 20px 0;
+      }
+
+      .menu-list .item {
+        width: 80%;
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+        color: #333;
+        border: 1px solid #e1e1e1;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        transition:
+          opacity 0.3s calc(var(--i) * 0.03s)
+            cubic-bezier(0.39, 0.575, 0.565, 1),
+          transform 0.3s calc(var(--i) * 0.03s)
+            cubic-bezier(0.39, 0.575, 0.565, 1);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="header">
+        <div class="nav">
+          <div class="item menu-toggler">
+            <span class="bars">
+              <span></span>
+            </span>
+          </div>
+        </div>
+        <div class="menu-wrapper">
+          <div class="menu-list">
+            <div class="item" style="--i: 1"><a href="#">首页</a></div>
+            <div class="item" style="--i: 2"><a href="#">关于</a></div>
+            <div class="item" style="--i: 3"><a href="#">联系</a></div>
+            <div class="item" style="--i: 4"><a href="#">应用</a></div>
+            <div class="item" style="--i: 5"><a href="#">商城</a></div>
+            <div class="item" style="--i: 6"><a href="#">帮助</a></div>
+            <div class="item" style="--i: 7"><a href="#">合作</a></div>
+          </div>
+        </div>
+      </div>
+      <div class="content">
+        <img alt="" src="https://picsum.photos/seed/picsum/400/300" />
+      </div>
+    </div>
+  </body>
+  <script>
+    // 参考LV官网：https://www.louisvuitton.cn/zhs-cn/homepage
+    const menuToggler = document.querySelector('.menu-toggler')
+    const menuWrapper = document.querySelector('.menu-wrapper')
+    menuToggler.addEventListener('click', () => {
+      menuToggler.classList.toggle('active')
+      menuWrapper.classList.toggle('active')
+    })
+  </script>
+</html>
