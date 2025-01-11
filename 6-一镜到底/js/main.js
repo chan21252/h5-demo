@@ -11,27 +11,27 @@ import {
   scene3Object,
   scene4Object,
   spriteGroupBgObject,
-  spriteGroupLastObject
-} from "./data.js"
+  spriteGroupLastObject,
+} from './data.js'
 
 PIXI.loader
-    .add(p1Arr)
-    .add(p2Arr)
-    .add(p2Arr2)
-    .add(p3Arr)
-    .add(p4Arr)
-    .add(p5Arr)
-    .on("progress", function (loader, resource) {
-      console.log(loader.progress)
-    })
-    .load(setup)
+  .add(p1Arr)
+  .add(p2Arr)
+  .add(p2Arr2)
+  .add(p3Arr)
+  .add(p4Arr)
+  .add(p5Arr)
+  .on('progress', function (loader, resource) {
+    console.log(loader.progress)
+  })
+  .load(setup)
 
 let app = null
 
 function setup() {
   app = new PIXI.Application({
     width: 750,
-    height: 1448
+    height: 1448,
   })
 
   document.getElementById('stage').appendChild(app.view)
@@ -71,7 +71,7 @@ function setup() {
 
   let spriteGroupLast = new PIXI.Container()
   spriteGroupLast.position.set(-203, 0)
-  spriteGroupLast.name = "spriteGroupLast"
+  spriteGroupLast.name = 'spriteGroupLast'
   app.stage.addChild(spriteGroupLast)
 
   let spritesObject = []
@@ -86,13 +86,13 @@ function setup() {
     addSpriteToGroup(sprite)
   }
 
-  // touchAction()
+  touchAction()
   scrollAction()
   tweenAction()
 }
 
 function addSpriteToGroup(spriteObject) {
-  let {img, x, y, alpha, sprName, sprGroup} = spriteObject
+  let { img, x, y, alpha, sprName, sprGroup } = spriteObject
   let sprite = PIXI.Sprite.from(img)
   sprite.position.set(x, y)
   sprite.alpha = alpha
@@ -114,8 +114,8 @@ function touchAction() {
   const phyTouch = new PhyTouch({
     touch: 'body',
     vertical: true,
-    target: {y: 0},
-    property: "y",
+    target: { y: 0 },
+    property: 'y',
     step: 50,
     min: maxLong,
     max: 0,
@@ -125,12 +125,11 @@ function touchAction() {
     change: function (value) {
       let progress = value / maxLong
       if (value > maxLong && value <= 0) {
-
       }
       allTimeline.seek(progress)
       animationPlay(progress)
       console.log(value)
-    }
+    },
   })
 }
 
@@ -142,20 +141,19 @@ function scrollAction() {
     end: '+=10800',
     onUpdate: (self) => {
       console.log(self.progress)
-    }
+    },
   })
 }
-
 
 /*************************** 滑动绑定 END ****************************/
 
 /*************************** 时间轴动画 BEGIN ****************************/
-const allTimeline = new TimelineMax({paused: true})
+const allTimeline = new TimelineMax({ paused: true })
 
 function tweenAction() {
   const scenes = app.stage.getChildByName('spriteGroupScenes')
-  const scenesTimeline = new TimelineMax({delay: 0})
-  const sceneTween = new TweenMax(scenes.position, 1, {x: maxLong})
+  const scenesTimeline = new TimelineMax({ delay: 0 })
+  const sceneTween = new TweenMax(scenes.position, 1, { x: maxLong })
   scenesTimeline.add(sceneTween)
   allTimeline.add(scenesTimeline, 0)
 
@@ -164,8 +162,8 @@ function tweenAction() {
   let star = scene1.getChildByName('p1Star')
   let starStartTime = -15 / maxLong
   let starDuration = -25 / maxLong
-  let starTimeline = new TimelineMax({delay: starStartTime})
-  let starTween = TweenMax.to(star, starDuration, {alpha: 1})
+  let starTimeline = new TimelineMax({ delay: starStartTime })
+  let starTween = TweenMax.to(star, starDuration, { alpha: 1 })
   scenesTimeline.add(starTween, 0)
   allTimeline.add(starTimeline, 0)
 
@@ -173,18 +171,20 @@ function tweenAction() {
   let house = scene1
   let houseStartTime = -600 / maxLong
   let houseDuration = -200 / maxLong
-  let houseTimeline = new TimelineMax({delay: houseStartTime})
-  let houseTween = TweenMax.to(house.scale, houseDuration, {x: 3, y: 3})
-  let houseTween2 = TweenMax.to(house, houseDuration, {alpha: 0})
+  let houseTimeline = new TimelineMax({ delay: houseStartTime })
+  let houseTween = TweenMax.to(house.scale, houseDuration, { x: 3, y: 3 })
+  let houseTween2 = TweenMax.to(house, houseDuration, { alpha: 0 })
   houseTimeline.add(houseTween, 0)
   houseTimeline.add(houseTween2, 0)
   scenesTimeline.add(houseTimeline, 0)
 
-  let scene2 = app.stage.getChildByName('spriteGroupScenes').getChildByName('scene2')
+  let scene2 = app.stage
+    .getChildByName('spriteGroupScenes')
+    .getChildByName('scene2')
   let scene2StartTime = -680 / maxLong
   let scene2Duration = -100 / maxLong
-  let scene2Timeline = new TimelineMax({delay: scene2StartTime})
-  let scene2Tween = TweenMax.to(scene2, scene2Duration, {alpha: 1})
+  let scene2Timeline = new TimelineMax({ delay: scene2StartTime })
+  let scene2Tween = TweenMax.to(scene2, scene2Duration, { alpha: 1 })
   scene2Timeline.add(scene2Tween, 0)
   allTimeline.add(scene2Timeline, 0)
 
@@ -192,9 +192,12 @@ function tweenAction() {
   let yinfu = getSpriteNamespace('spriteGroupScenes/scene2/p2Yinfu')
   let yinfuStartTime = -2440 / maxLong
   let yinfuDuration = -100 / maxLong
-  let yinfuTimeline = new TimelineMax({delay: yinfuStartTime})
-  let yinfuTween = TweenMax.to(yinfu.position, yinfuDuration, {x: 3400, y: 300})
-  let yinfuTween2 = TweenMax.to(yinfu, yinfuDuration, {alpha: 0})
+  let yinfuTimeline = new TimelineMax({ delay: yinfuStartTime })
+  let yinfuTween = TweenMax.to(yinfu.position, yinfuDuration, {
+    x: 3400,
+    y: 300,
+  })
+  let yinfuTween2 = TweenMax.to(yinfu, yinfuDuration, { alpha: 0 })
   yinfuTimeline.add(yinfuTween, 0)
   yinfuTimeline.add(yinfuTween2, 0)
   allTimeline.add(yinfuTimeline, 0)
@@ -203,9 +206,12 @@ function tweenAction() {
   let night = getSpriteNamespace('spriteGroupScenes/scene3/p32')
   let nightStartTime = -2580 / maxLong
   let nightDuration = -800 / maxLong
-  let nightTimeline = new TimelineMax({delay: nightStartTime})
-  let nightTween = TweenMax.from(night.scale, nightDuration, {x: 5, y: 5})
-  let nightTween2 = TweenMax.from(night.position, nightDuration, {x: 0, y: -20})
+  let nightTimeline = new TimelineMax({ delay: nightStartTime })
+  let nightTween = TweenMax.from(night.scale, nightDuration, { x: 5, y: 5 })
+  let nightTween2 = TweenMax.from(night.position, nightDuration, {
+    x: 0,
+    y: -20,
+  })
   nightTimeline.add(nightTween, 0)
   nightTimeline.add(nightTween2, 0)
   allTimeline.add(nightTimeline, 0)
@@ -214,8 +220,10 @@ function tweenAction() {
   let boyWorking = getSpriteNamespace('spriteGroupScenes/scene3/p31')
   let boyWorkingStartTime = -2780 / maxLong
   let boyWorkingDuration = -600 / maxLong
-  let boyWorkingTimeline = new TimelineMax({delay: boyWorkingStartTime})
-  let boyWorkingTween = TweenMax.to(boyWorking, boyWorkingDuration, {alpha: 1})
+  let boyWorkingTimeline = new TimelineMax({ delay: boyWorkingStartTime })
+  let boyWorkingTween = TweenMax.to(boyWorking, boyWorkingDuration, {
+    alpha: 1,
+  })
   boyWorkingTimeline.add(boyWorkingTween, 0)
   allTimeline.add(boyWorkingTimeline, 0)
 
@@ -223,24 +231,24 @@ function tweenAction() {
   let xn = app.stage.getChildByName('spriteGroupLast').getChildByName('bgLast')
   let xnStartTime = -6610 / maxLong
   let xnDuringTime = -50 / maxLong
-  let xnTimeline = new TimelineMax({delay: xnStartTime})
-  let xnTween = TweenMax.to(xn, xnDuringTime, {alpha: 1})
+  let xnTimeline = new TimelineMax({ delay: xnStartTime })
+  let xnTween = TweenMax.to(xn, xnDuringTime, { alpha: 1 })
   xnTimeline.add(xnTween, 0)
   allTimeline.add(xnTimeline, 0)
 }
-
 
 /*************************** 时间轴动画 END ****************************/
 
 /*************************** 序列帧动画 BEGIN ****************************/
 function animationPlay(progress) {
-
   // 孩子序列帧动画
   let childStartTime = -900 / maxLong
   let childDuration = -1300 / maxLong
   let childNum = p2Arr2.length
   if (progress > childStartTime) {
-    let index = Math.floor(childNum * (progress - childStartTime) / childDuration)
+    let index = Math.floor(
+      (childNum * (progress - childStartTime)) / childDuration,
+    )
     if (index >= 0 && index < childNum) {
       let child = getSpriteNamespace('spriteGroupScenes/scene2/p2Child')
       child.texture = PIXI.Texture.fromImage(p2Arr2[index])
@@ -252,7 +260,9 @@ function animationPlay(progress) {
   let xuanDuration = -2000 / maxLong
   let xuanNum = p5Arr.length
   if (progress > xuanStartTime) {
-    let index = Math.floor(xuanNum * (progress - xuanStartTime) / xuanDuration)
+    let index = Math.floor(
+      (xuanNum * (progress - xuanStartTime)) / xuanDuration,
+    )
     if (index >= 0 && index < xuanNum) {
       let xuan = getSpriteNamespace('spriteGroupLast/bgLast')
       xuan.texture = PIXI.Texture.fromImage(p5Arr[index])

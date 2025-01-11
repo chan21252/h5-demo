@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <title>Title</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      .hammer-target {
+        background: silver;
+        height: 300px;
+        text-align: center;
+        font:
+          30px/300px Helvetica,
+          Arial,
+          sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="hammer-target"></div>
+    </div>
+  </body>
+  <script src="lib/hammer.min.js"></script>
+  <script>
+    const hammerTarget = document.querySelector('.hammer-target')
+    const mc = new Hammer(hammerTarget)
+    mc.get('pan').set({ direction: Hammer.DIRECTION_ALL })
+    mc.get('swipe').set({ direction: Hammer.DIRECTION_ALL })
+    // mc.on('panleft panright panup pandown tap press', function (ev) {
+    //   hammerTarget.textContent = ev.type + ' gesture detected'
+    // })
+
+    mc.on('swipeleft swiperight swipeup swipedown tap press', function (ev) {
+      hammerTarget.textContent = ev.type + ' gesture detected'
+    })
+  </script>
+</html>

@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <title>loading动画-声波</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: nowrap;
+        background-color: #dedede;
+      }
+
+      .container {
+        width: 300px;
+      }
+
+      .container > img {
+        /* 在线工具：https://zzd.show/tool/clippath/ */
+        /*clip-path: polygon(50% 0%, 0% 100%, 100% 100%);*/
+        clip-path: polygon(0 0, 0% 100%, 100% 50%);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <img src="https://picsum.photos/300/300" alt="" />
+    </div>
+  </body>
+</html>
