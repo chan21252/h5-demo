@@ -2,21 +2,21 @@ html {
   --primary-color: #1890ff;
   --primary-color-hover: #40a9ff;
   --primary-color-active: #096dd9;
-  --primary-color-outline: rgba(24, 144, 255, .2);
+  --primary-color-outline: rgb(24 144 255 / 20%);
   --success-color: #52c41a;
   --success-color-hover: #73d13d;
   --success-color-active: #389e0d;
-  --success-color-outline: rgba(82, 196, 26, .2);
+  --success-color-outline: rgb(82 196 26 / 20%);
   --success-color-deprecated-bg: #f6ffed;
   --success-color-deprecated-border: #b7eb8f;
   --error-color: #ff4d4f;
   --error-color-hover: #ff7875;
   --error-color-active: #d9363e;
-  --error-color-outline: rgba(255, 77, 79, .2);
+  --error-color-outline: rgb(255 77 79 / 20%);
   --error-color-deprecated-bg: #fff2f0;
   --error-color-deprecated-border: #ffccc7;
   --warning-color: #faad14;
   --warning-color-hover: #ffc53d;
   --warning-color-active: #d48806;
-  --warning-color-outline: rgba(250, 173, 20, .2);
+  --warning-color-outline: rgb(250 173 20 / 20%);
 }

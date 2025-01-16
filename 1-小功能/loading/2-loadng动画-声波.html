@@ -9,17 +9,18 @@
     <title>loading动画-声波</title>
     <style>
       * {
-        margin: 0;
         padding: 0;
+        margin: 0;
       }
+
       html,
       body {
-        width: 100vw;
-        height: 100vh;
         display: flex;
+        flex-wrap: nowrap;
         align-items: center;
         justify-content: center;
-        flex-wrap: nowrap;
+        width: 100vw;
+        height: 100vh;
         background-color: #dedede;
       }
 
@@ -33,13 +34,13 @@
         width: 10px;
         height: 80px;
         margin: 0 10px;
-        border-radius: 5px;
         background: #ff3131;
-        animation: animate_wave 2s linear infinite;
+        border-radius: 5px;
+        animation: animate-wave 2s linear infinite;
         animation-delay: calc(-2s * var(--d));
       }
 
-      @keyframes animate_wave {
+      @keyframes animate-wave {
         56% {
           height: 20%;
         }

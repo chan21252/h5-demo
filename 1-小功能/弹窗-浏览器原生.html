@@ -1,39 +1,42 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
     <title>弹窗-浏览器原生</title>
     <style>
-        .dialog {
-            border: none;
-            border-radius: 10px;
-        }
+      .dialog {
+        border: none;
+        border-radius: 10px;
+      }
 
-        .dialog::backdrop {
-            background: rgba(0, 0, 0, .3);
-        }
+      .dialog::backdrop {
+        background: rgb(0 0 0 / 30%);
+      }
 
-        label {
-            display: inline-block;
-            width: 50px;
-        }
+      label {
+        display: inline-block;
+        width: 50px;
+      }
     </style>
-</head>
-<body>
-<div class="app">
-    <dialog class="dialog" id="myDialog">
+  </head>
+  <body>
+    <div class="app">
+      <dialog class="dialog" id="myDialog">
         <div>
-            <label for="name">name</label>
-            <input id="name" type="text" />
+          <label for="name">name</label>
+          <input id="name" type="text" />
         </div>
         <div>
-            <label for="age">age</label>
-            <input id="age" type="text" />
+          <label for="age">age</label>
+          <input id="age" type="text" />
         </div>
         <button onclick="myDialog.close()">关闭</button>
-    </dialog>
-    <button onclick="myDialog.showModal()">弹窗</button>
-</div>
-</body>
+      </dialog>
+      <button onclick="myDialog.showModal()">弹窗</button>
+    </div>
+  </body>
 </html>

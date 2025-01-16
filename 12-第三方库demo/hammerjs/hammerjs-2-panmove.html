@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <title>跟随手指移动</title>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+      }
+
+      body {
+        margin: 0;
+        overflow: hidden;
+      }
+
+      #draggable {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 50px;
+        height: 50px;
+        touch-action: none;
+        cursor: move;
+        user-select: none;
+        background-color: #3498db;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div id="draggable"></div>
+    </div>
+  </body>
+  <script src="lib/hammer.min.js"></script>
+  <script>
+    const element = document.getElementById('draggable')
+    let currentX = 0
+    let currentY = 0
+    let initialX = 0
+    let initialY = 0
+
+    const hammer = new Hammer(element)
+    hammer.get('pan').set({ direction: Hammer.DIRECTION_ALL })
+
+    hammer.on('panstart', (e) => {
+      initialX = currentX
+      initialY = currentY
+    })
+
+    hammer.on('pan', (e) => {
+      const newX = initialX + e.deltaX
+      const newY = initialY + e.deltaY
+
+      // 获取屏幕尺寸
+      const maxX = window.innerWidth - element.offsetWidth
+      const maxY = window.innerHeight - element.offsetHeight
+
+      // 限制在屏幕范围内
+      currentX = Math.min(Math.max(0, newX), maxX)
+      currentY = Math.min(Math.max(0, newY), maxY)
+
+      // 更新元素位置
+      element.style.transform = `translate(${currentX}px, ${currentY}px)`
+    })
+
+    // 处理窗口大小变化
+    window.addEventListener('resize', () => {
+      const maxX = window.innerWidth - element.offsetWidth
+      const maxY = window.innerHeight - element.offsetHeight
+
+      // 确保元素在调整窗口大小后仍在屏幕内
+      currentX = Math.min(currentX, maxX)
+      currentY = Math.min(currentY, maxY)
+
+      element.style.transform = `translate(${currentX}px, ${currentY}px)`
+    })
+  </script>
+</html>

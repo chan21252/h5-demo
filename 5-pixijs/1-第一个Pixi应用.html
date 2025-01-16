@@ -1,36 +1,36 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <head>
+    <meta charset="UTF-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title></title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            border: none;
-        }
+      * {
+        padding: 0;
+        margin: 0;
+        border: none;
+      }
     </style>
-</head>
-<body>
-<div></div>
-<script src="js/pixi-6.5.10.js"></script>
-<script>
-    let app = new PIXI.Application({
+  </head>
+  <body>
+    <div></div>
+    <script src="lib/pixi-6.5.10.js"></script>
+    <script>
+      let app = new PIXI.Application({
         width: window.innerWidth,
         height: window.innerHeight,
         backgroundColor: 0x00a5eb,
-        resolution: window.devicePixelRatio || 1
-    });
+        resolution: window.devicePixelRatio || 1,
+      })
 
-    document.body.appendChild(app.view);
+      document.body.appendChild(app.view)
 
-    let rectangle = new PIXI.Graphics();
-    rectangle.beginFill(0x66ccff);
-    rectangle.drawRect(200, 200, 100, 100)
-    rectangle.endFill();
+      let rectangle = new PIXI.Graphics()
+      rectangle.beginFill(0x66ccff)
+      rectangle.drawRect(200, 200, 100, 100)
+      rectangle.endFill()
 
-    app.stage.addChild(rectangle);
-</script>
-</body>
+      app.stage.addChild(rectangle)
+    </script>
+  </body>
 </html>

@@ -1,101 +1,113 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <head>
+    <meta charset="UTF-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title></title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            border: none;
-        }
-    </style>
-</head>
-<body>
-<div></div>
-<script src="js/pixi-7.2.4.js"></script>
-<script src="js/pixi-filters.js"></script>
-<script>
-  let app = new PIXI.Application({
-    autoStart: true,
-    resizeTo: window
-  })
-  document.body.appendChild(app.view)
-
-  PIXI.Assets.addBundle('benz', {
-    'text': './img/text.svg',
-    'bg': './img/benz.jpg',
-  })
-
-  let texturePromise = PIXI.Assets.loadBundle('benz', (progress) => {
-  })
-
-  texturePromise.then((textures) => {
-    let bg = new PIXI.Sprite(textures.bg)
-    bg.width = app.screen.width
-    bg.height = app.screen.height
-    let text = new PIXI.Sprite(textures.text)
-    text.position.set(100, 100)
-    let container = new PIXI.Container()
-    container.addChild(bg)
-    container.addChild(text)
-
-    let shockwaveFilter1 = new PIXI.filters.ShockwaveFilter(
-        [Math.random() * app.view.width, Math.random() * app.view.height], {
-          amplitude: 80,
-          waveLength: 40,
-          speed: 200,
-          brightness: 1,
-          radius: 100,
-          time: 0
-        })
-
-    let shockwaveFilter2 = new PIXI.filters.ShockwaveFilter(
-        [Math.random() * app.view.width, Math.random() * app.view.height], {
-          amplitude: 60,
-          waveLength: 60,
-          speed: 100,
-          brightness: 1,
-          radius: 40,
-          time: 0
-        })
-
-    let shockwaveFilter3 = new PIXI.filters.ShockwaveFilter(
-        [Math.random() * app.view.width, Math.random() * app.view.height], {
-          amplitude: 60,
-          waveLength: 100,
-          speed: 100,
-          brightness: 1,
-          radius: 60,
-          time: 0
-        })
-
-    container.filters = [shockwaveFilter1, shockwaveFilter2, shockwaveFilter3]
-
-    app.view.addEventListener('click', function (e) {
-      let x = e.clientX
-      let y = e.clientY
-      shockwaveFilter1.time = 0
-      shockwaveFilter1.center = [x, y]
-    })
-
-    app.ticker.add(() => {
-      createWave(shockwaveFilter1, 1)
-      createWave(shockwaveFilter2, 1.2)
-      createWave(shockwaveFilter3, 0.8)
-    })
-
-    function createWave(filter, resetTime) {
-      filter.time += 0.01
-      if (filter.time > resetTime) {
-        filter.center = [Math.random() * app.view.width, Math.random() * app.view.height]
-        filter.time = 0
+      * {
+        padding: 0;
+        margin: 0;
+        border: none;
       }
-    }
+    </style>
+  </head>
+  <body>
+    <div></div>
+    <script src="lib/pixi-7.2.4.js"></script>
+    <script src="lib/pixi-filters.js"></script>
+    <script>
+      let app = new PIXI.Application({
+        autoStart: true,
+        resizeTo: window,
+      })
+      document.body.appendChild(app.view)
 
-    app.stage.addChild(container)
-  })
-</script>
-</body>
+      PIXI.Assets.addBundle('benz', {
+        text: './img/text.svg',
+        bg: './img/benz.jpg',
+      })
+
+      let texturePromise = PIXI.Assets.loadBundle('benz', (progress) => {})
+
+      texturePromise.then((textures) => {
+        let bg = new PIXI.Sprite(textures.bg)
+        bg.width = app.screen.width
+        bg.height = app.screen.height
+        let text = new PIXI.Sprite(textures.text)
+        text.position.set(100, 100)
+        let container = new PIXI.Container()
+        container.addChild(bg)
+        container.addChild(text)
+
+        let shockwaveFilter1 = new PIXI.filters.ShockwaveFilter(
+          [Math.random() * app.view.width, Math.random() * app.view.height],
+          {
+            amplitude: 80,
+            waveLength: 40,
+            speed: 200,
+            brightness: 1,
+            radius: 100,
+            time: 0,
+          },
+        )
+
+        let shockwaveFilter2 = new PIXI.filters.ShockwaveFilter(
+          [Math.random() * app.view.width, Math.random() * app.view.height],
+          {
+            amplitude: 60,
+            waveLength: 60,
+            speed: 100,
+            brightness: 1,
+            radius: 40,
+            time: 0,
+          },
+        )
+
+        let shockwaveFilter3 = new PIXI.filters.ShockwaveFilter(
+          [Math.random() * app.view.width, Math.random() * app.view.height],
+          {
+            amplitude: 60,
+            waveLength: 100,
+            speed: 100,
+            brightness: 1,
+            radius: 60,
+            time: 0,
+          },
+        )
+
+        container.filters = [
+          shockwaveFilter1,
+          shockwaveFilter2,
+          shockwaveFilter3,
+        ]
+
+        app.view.addEventListener('click', function (e) {
+          let x = e.clientX
+          let y = e.clientY
+          shockwaveFilter1.time = 0
+          shockwaveFilter1.center = [x, y]
+        })
+
+        app.ticker.add(() => {
+          createWave(shockwaveFilter1, 1)
+          createWave(shockwaveFilter2, 1.2)
+          createWave(shockwaveFilter3, 0.8)
+        })
+
+        function createWave(filter, resetTime) {
+          filter.time += 0.01
+          if (filter.time > resetTime) {
+            filter.center = [
+              Math.random() * app.view.width,
+              Math.random() * app.view.height,
+            ]
+            filter.time = 0
+          }
+        }
+
+        app.stage.addChild(container)
+      })
+    </script>
+  </body>
 </html>

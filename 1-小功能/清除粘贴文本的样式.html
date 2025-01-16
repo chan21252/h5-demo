@@ -1,36 +1,39 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+      name="viewport"
+    />
     <title>清除粘贴文本样式</title>
     <style>
-        h3 {
-            text-align: center;
-        }
+      h3 {
+        text-align: center;
+      }
 
-        #text {
-            width: 375px;
-            height: 300px;
-            padding: 10px;
-            margin: 0 auto;
-            border: solid 1px #afafaf;
-            overflow: scroll;
-        }
+      #text {
+        width: 375px;
+        height: 300px;
+        padding: 10px;
+        margin: 0 auto;
+        overflow: scroll;
+        border: solid 1px #afafaf;
+      }
     </style>
-</head>
-<body>
-<h3>请在下框内粘贴内容</h3>
-<div contenteditable="true" id="text"></div>
-<script>
-  const textareaEl = document.getElementById("text")
-  textareaEl.addEventListener('paste', (event) => {
-    event.preventDefault()
-    const clipboardData = event.clipboardData || window.Clipboard
-    if (clipboardData && clipboardData.types.indexOf("text/plain") !== -1) {
-      textareaEl.innerText += clipboardData.getData("text")
-    }
-  })
-</script>
-</body>
+  </head>
+  <body>
+    <h3>请在下框内粘贴内容</h3>
+    <div contenteditable="true" id="text"></div>
+    <script>
+      const textareaEl = document.getElementById('text')
+      textareaEl.addEventListener('paste', (event) => {
+        event.preventDefault()
+        const clipboardData = event.clipboardData || window.Clipboard
+        if (clipboardData && clipboardData.types.indexOf('text/plain') !== -1) {
+          textareaEl.innerText += clipboardData.getData('text')
+        }
+      })
+    </script>
+  </body>
 </html>

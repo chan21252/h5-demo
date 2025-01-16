@@ -1,101 +1,109 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-  <title>序列帧动画-requestAnimationFrame</title>
-  <style>
-    #seq-frame {
-      width: 100%;
-      height: auto;
-    }
-  </style>
-</head>
-<body>
-  <div id="app">
-    <div id="animate-wrap">
-      <img id="seq-frame" src="./sequence/1.png" alt=""/>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <title>序列帧动画-requestAnimationFrame</title>
+    <style>
+      #seq-frame {
+        width: 100%;
+        height: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div id="animate-wrap">
+        <img id="seq-frame" src="./sequence/1.png" alt="" />
+      </div>
+
+      <button onclick="start()">start</button>
+      <button onclick="restart()">restart</button>
+      <br />
+      <br />
+      <button onclick="pause()">pause</button>
+      <button onclick="stop()">end</button>
     </div>
+    <script>
+      // https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestAnimationFrame
+      let rAFid = 0 // 保存浏览器重绘帧序列的ID
+      let last // 上一帧绘制的时间点
+      let timing = 0 // 浏览器绘制帧累计的时间
 
-    <button onclick="start()">start</button>
-    <button onclick="restart()">restart</button>
-    <br/><br/>
-    <button onclick="pause()">pause</button>
-    <button onclick="stop()">end</button>
-  </div>
-<script>
-  // https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestAnimationFrame
-  let rAFid = 0;  // 保存浏览器重绘帧序列的ID
-  let last;       // 上一帧绘制的时间点
-  let timing = 0;  // 浏览器绘制帧累计的时间
+      let seqIndex = 1 // 起始的序列帧图片序号
+      const totalFrames = 57 // 序列帧的总数
+      const aniFPS = 25 // 序列帧动画的FPS
+      const aniFrameInterval = 1000 / aniFPS // 序列帧动画的时间间隔
 
-  let seqIndex = 1;   // 起始的序列帧图片序号
-  const totalFrames = 57;  // 序列帧的总数
-  const aniFPS = 25;  // 序列帧动画的FPS
-  const aniFrameInterval = 1000 / aniFPS; // 序列帧动画的时间间隔
+      /**
+       * 浏览器重绘的回调函数
+       *
+       * @param time  重绘执行的时间点
+       */
+      function step(time) {
+        if (last === undefined) {
+          last = time
+        }
 
-  /**
-   * 浏览器重绘的回调函数
-   *
-   * @param time  重绘执行的时间点
-   */
-  function step(time) {
-    if (last === undefined) {
-      last = time;
-    }
+        timing += time - last
+        last = time
 
-    timing += time - last;
-    last = time;
+        if (timing > aniFrameInterval) {
+          //浏览器绘制帧累计的时间 > 序列帧动画的时间间隔，就绘制一帧序列帧图片
+          if (!isPlaying) {
+            //取消播放
+            window.cancelAnimationFrame(rAFid)
+            return
+          }
 
-    if (timing > aniFrameInterval) { //浏览器绘制帧累计的时间 > 序列帧动画的时间间隔，就绘制一帧序列帧图片
-      if (!isPlaying) { //取消播放
-        window.cancelAnimationFrame(rAFid);
-        return;
+          // 渲染动画写在这里
+          document
+            .getElementById('seq-frame')
+            .setAttribute('src', `./sequence/${seqIndex++}.png`)
+          timing = 0 // 重置浏览器绘制的累计时间
+
+          // 循环播放
+          if (seqIndex > totalFrames) {
+            reset()
+          }
+        }
+
+        if (seqIndex <= totalFrames) {
+          // 序列帧图片是否全部绘制
+          return window.requestAnimationFrame(step)
+        }
+      }
+      //rAFid = window.requestAnimationFrame(step);
+
+      let isPlaying = false // 动画播放状态
+      function reset() {
+        rAFid = 0
+        last = undefined
+        timing = 0
+        seqIndex = 1
       }
 
-      // 渲染动画写在这里
-      document.getElementById("seq-frame").setAttribute("src", `./sequence/${seqIndex++}.png`);
-      timing = 0;  // 重置浏览器绘制的累计时间
-
-      // 循环播放
-      if (seqIndex > totalFrames) {
-        reset();
+      function start() {
+        isPlaying = true
+        rAFid = window.requestAnimationFrame(step)
       }
-    }
 
-    if (seqIndex <= totalFrames) { // 序列帧图片是否全部绘制
-      return window.requestAnimationFrame(step);
-    }
-  }
-  //rAFid = window.requestAnimationFrame(step);
+      function restart() {
+        stop()
+        start()
+      }
 
-  let isPlaying = false;  // 动画播放状态
-  function reset() {
-    rAFid = 0;
-    last = undefined;
-    timing = 0;
-    seqIndex = 1;
-  }
+      function pause() {
+        isPlaying = false
+      }
 
-  function start() {
-    isPlaying = true;
-    rAFid = window.requestAnimationFrame(step);
-  }
-
-  function restart() {
-    stop();
-    start();
-  }
-
-  function pause() {
-    isPlaying = false;
-  }
-
-  function stop() {
-    reset();
-    isPlaying = false;
-  }
-
-</script>
-</body>
+      function stop() {
+        reset()
+        isPlaying = false
+      }
+    </script>
+  </body>
 </html>

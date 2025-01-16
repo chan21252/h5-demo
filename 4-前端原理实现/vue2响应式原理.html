@@ -1,50 +1,50 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
+  </head>
+  <body>
     <div></div>
-</body>
-<script>
+  </body>
+  <script>
     const state = {
-        name: 'Jack',
-        age: 18,
-        grade: {
-            js: 80
-        }
+      name: 'Jack',
+      age: 18,
+      grade: {
+        js: 80,
+      },
     }
 
     function updateView() {
-        console.log('更新视图');
+      console.log('更新视图')
     }
 
     function defineReactive(target, key, value) {
-        observe(value)  // 深度监听
+      observe(value) // 深度监听
 
-        Object.defineProperty(target, key, {
-            get() {
-                return value
-            },
-            set(newVal) {
-                observe(newVal) // 新值如果是对象，也添加响应式
-                value = newVal
-                updateView()
-            }
-        })
+      Object.defineProperty(target, key, {
+        get() {
+          return value
+        },
+        set(newVal) {
+          observe(newVal) // 新值如果是对象，也添加响应式
+          value = newVal
+          updateView()
+        },
+      })
     }
 
     function observe(target) {
-        if (typeof target !== 'object' || target == null) {
-            return target
-        }
+      if (typeof target !== 'object' || target == null) {
+        return target
+      }
 
-        for (const key in target) {
-            defineReactive(target, key, target[key])
-        }
+      for (const key in target) {
+        defineReactive(target, key, target[key])
+      }
     }
     observe(state)
-</script>
+  </script>
 </html>

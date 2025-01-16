@@ -1,103 +1,112 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-  <title>序列帧动画</title>
-  <style>
-    #seq-frame {
-      width: 100%;
-      height: auto;
-    }
-  </style>
-</head>
-<body>
-  <div id="app">
-    <div id="animate-wrap">
-      <img id="seq-frame" src="./sequence/1.png" alt=""/>
-    </div>
-
-    <button onclick="start()">start</button>
-    <button onclick="restart()">restart</button>
-    <br/><br/>
-    <button onclick="pause()">pause</button>
-    <button onclick="stop()">end</button>
-  </div>
-<script>
-  // https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestAnimationFrame
-  let rAFid = 0;       // 保存浏览器每次重绘序列的ID
-  let elapsedFrames = 0;  // 浏览器距离上次渲染动画重绘了几帧
-
-  let seqIndex = 1;         // 起始的序列帧动画图片序号
-  const totalSeqFrames = 57;  // 序列帧动画的总帧数数
-  const windowFPS = 60;     // 浏览器的FPS
-  const seqFPS = 25;        // 序列帧动画的FPS
-  const aniFrameInterval = windowFPS / seqFPS; // 序列帧动画和屏幕FPS的比，屏幕绘制几帧需要绘制一帧动画
-
-  let isPlaying = false;  // 动画播放状态
-
-  // 动画渲染操作写在这里
-  function render(seq) {
-    document.getElementById("seq-frame").setAttribute("src", `./sequence/${seq}.png`);
-  }
-
-  // 封装requestAnimFrame
-  window.requestAnimFrame = (function(){
-    return  window.requestAnimationFrame ||
-      window.webkitRequestAnimationFrame ||
-      window.mozRequestAnimationFrame    ||
-      function( callback ) {
-        window.setTimeout(callback, 1000 / 60);
-      };
-  })();
-
-  // 屏幕绘制循环
-  function requestAnimLoop(){
-    if (!isPlaying) {
-      return;
-    }
-    elapsedFrames++;
-    rAFid = requestAnimFrame(requestAnimLoop);
-
-    if (elapsedFrames > aniFrameInterval) { // 需要绘制一帧
-      if (seqIndex <= totalSeqFrames) {
-        render(seqIndex++);
-      } else {  // 如需循环播放
-        reset();
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <title>序列帧动画</title>
+    <style>
+      #seq-frame {
+        width: 100%;
+        height: auto;
       }
-      elapsedFrames = 0;
-    }
-  }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div id="animate-wrap">
+        <img id="seq-frame" src="./sequence/1.png" alt="" />
+      </div>
 
-  function reset() {
-    rAFid = 0;
-    elapsedFrames = 0;
-    seqIndex = 1;
-  }
+      <button onclick="start()">start</button>
+      <button onclick="restart()">restart</button>
+      <br />
+      <br />
+      <button onclick="pause()">pause</button>
+      <button onclick="stop()">end</button>
+    </div>
+    <script>
+      // https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestAnimationFrame
+      let rAFid = 0 // 保存浏览器每次重绘序列的ID
+      let elapsedFrames = 0 // 浏览器距离上次渲染动画重绘了几帧
 
-  function start() {
-    isPlaying = true;
-    window.cancelAnimationFrame(rAFid);
-    reset();
-    requestAnimLoop();
-  }
+      let seqIndex = 1 // 起始的序列帧动画图片序号
+      const totalSeqFrames = 57 // 序列帧动画的总帧数数
+      const windowFPS = 60 // 浏览器的FPS
+      const seqFPS = 25 // 序列帧动画的FPS
+      const aniFrameInterval = windowFPS / seqFPS // 序列帧动画和屏幕FPS的比，屏幕绘制几帧需要绘制一帧动画
 
-  function restart() {
-    stop();
-    start();
-  }
+      let isPlaying = false // 动画播放状态
 
-  function pause() {
-    isPlaying = false;
-    window.cancelAnimationFrame(rAFid);
-  }
+      // 动画渲染操作写在这里
+      function render(seq) {
+        document
+          .getElementById('seq-frame')
+          .setAttribute('src', `./sequence/${seq}.png`)
+      }
 
-  function stop() {
-    isPlaying = false;
-    window.cancelAnimationFrame(rAFid);
-    reset();
-  }
+      // 封装requestAnimFrame
+      window.requestAnimFrame = (function () {
+        return (
+          window.requestAnimationFrame ||
+          window.webkitRequestAnimationFrame ||
+          window.mozRequestAnimationFrame ||
+          function (callback) {
+            window.setTimeout(callback, 1000 / 60)
+          }
+        )
+      })()
 
-</script>
-</body>
+      // 屏幕绘制循环
+      function requestAnimLoop() {
+        if (!isPlaying) {
+          return
+        }
+        elapsedFrames++
+        rAFid = requestAnimFrame(requestAnimLoop)
+
+        if (elapsedFrames > aniFrameInterval) {
+          // 需要绘制一帧
+          if (seqIndex <= totalSeqFrames) {
+            render(seqIndex++)
+          } else {
+            // 如需循环播放
+            reset()
+          }
+          elapsedFrames = 0
+        }
+      }
+
+      function reset() {
+        rAFid = 0
+        elapsedFrames = 0
+        seqIndex = 1
+      }
+
+      function start() {
+        isPlaying = true
+        window.cancelAnimationFrame(rAFid)
+        reset()
+        requestAnimLoop()
+      }
+
+      function restart() {
+        stop()
+        start()
+      }
+
+      function pause() {
+        isPlaying = false
+        window.cancelAnimationFrame(rAFid)
+      }
+
+      function stop() {
+        isPlaying = false
+        window.cancelAnimationFrame(rAFid)
+        reset()
+      }
+    </script>
+  </body>
 </html>

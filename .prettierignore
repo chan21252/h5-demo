@@ -2,6 +2,7 @@
 /html/*
 /dist/*
 /node_modules/*
-.local
 **/*.svg
 **/*.sh
+**/lib/*
+test/

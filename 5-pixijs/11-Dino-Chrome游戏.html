@@ -22,7 +22,6 @@
         autoStart: true,
         resizeTo: window,
         backgroundColor: 0xffffff,
-        antialias: true,
       })
       document.body.appendChild(app.view)
 
@@ -114,6 +113,12 @@
 
       app.stage.addChild(container)
       text.interactive = true
+      // text.on('click', function () {
+      //   if (!state.isPlaying) {
+      //     startGame()
+      //   }
+      // })
+
       text.on('pointerdown', function () {
         if (!state.isPlaying) {
           startGame()

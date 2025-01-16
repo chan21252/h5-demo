@@ -1,84 +1,118 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+      name="viewport"
+    />
     <title>4-Timeline-demo-图片依次展开</title>
     <style>
-        html {
-            font-size: 0.8vw !important;
-        }
+      html {
+        font-size: 0.8vw !important;
+      }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      * {
+        box-sizing: border-box;
+        padding: 0;
+        margin: 0;
+      }
 
-        #app {
-            width: 100vw;
-            height: 100vh;
-            overflow: hidden;
-        }
+      #app {
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+      }
 
-        div, img {
-            display: block;
-        }
+      div,
+      img {
+        display: block;
+      }
 
-        .poster {
-            position: absolute;
-            top: 50%;
-            width: 18em;
-            transform: translateY(-50%);
-            border-radius: 10px;
-        }
+      .poster {
+        position: absolute;
+        top: 50%;
+        width: 18em;
+        border-radius: 10px;
+        transform: translateY(-50%);
+      }
 
-        #p1, #p2, #p3 {
-            left: 53.5em;
-        }
+      #p1,
+      #p2,
+      #p3 {
+        left: 53.5em;
+      }
 
-        #p4, #p5 {
-            right: 53.5rem;
-        }
+      #p4,
+      #p5 {
+        right: 53.5rem;
+      }
 
-        #p1, #p5 {
-            z-index: -2;
-            width: 14em;
-        }
+      #p1,
+      #p5 {
+        z-index: -2;
+        width: 14em;
+      }
 
-        #p2, #p4 {
-            z-index: -1;
-            width: 16em;
-        }
+      #p2,
+      #p4 {
+        z-index: -1;
+        width: 16em;
+      }
 
-        #p3 {
-            z-index: 1;
-            opacity: 1;
-        }
-
+      #p3 {
+        z-index: 1;
+        opacity: 1;
+      }
     </style>
-</head>
-<body>
-<div id="app">
-    <img alt="" class="poster" id="p1" src="./images/p1.jpg">
-    <img alt="" class="poster" id="p2" src="./images/p2.jpg">
-    <img alt="" class="poster" id="p3" src="./images/p3.jpg">
-    <img alt="" class="poster" id="p4" src="./images/p4.jpg">
-    <img alt="" class="poster" id="p5" src="./images/p5.jpg">
-</div>
-<script src="./lib/gsap.js"></script>
-<script>
-  let t1 = gsap.timeline({paused: true, defaults: {duration: 1, ease: 'power1.out'}})
-  t1.fromTo('#p3', {width: '18em', left: '53.5em'}, {width: '30em', left: '47.5em'})
-  t1.fromTo('#p2', {width: '16em', left: '53.5em'}, {width: '26em', left: '26em'}, "-=.7")
-  t1.fromTo('#p4', {width: '16em', right: '53.5em'}, {width: '26em', right: '26em'}, "<")
-  t1.fromTo('#p1', {width: '14em', left: '53.5em'}, {width: '22em', left: '6em'}, "-=.7")
-  t1.fromTo('#p5', {width: '14em', right: '53.5em'}, {width: '22em', right: '6em'}, "<")
+  </head>
+  <body>
+    <div id="app">
+      <img alt="" class="poster" id="p1" src="./images/p1.jpg" />
+      <img alt="" class="poster" id="p2" src="./images/p2.jpg" />
+      <img alt="" class="poster" id="p3" src="./images/p3.jpg" />
+      <img alt="" class="poster" id="p4" src="./images/p4.jpg" />
+      <img alt="" class="poster" id="p5" src="./images/p5.jpg" />
+    </div>
+    <script src="./lib/gsap.js"></script>
+    <script>
+      let t1 = gsap.timeline({
+        paused: true,
+        defaults: { duration: 1, ease: 'power1.out' },
+      })
+      t1.fromTo(
+        '#p3',
+        { width: '18em', left: '53.5em' },
+        { width: '30em', left: '47.5em' },
+      )
+      t1.fromTo(
+        '#p2',
+        { width: '16em', left: '53.5em' },
+        { width: '26em', left: '26em' },
+        '-=.7',
+      )
+      t1.fromTo(
+        '#p4',
+        { width: '16em', right: '53.5em' },
+        { width: '26em', right: '26em' },
+        '<',
+      )
+      t1.fromTo(
+        '#p1',
+        { width: '14em', left: '53.5em' },
+        { width: '22em', left: '6em' },
+        '-=.7',
+      )
+      t1.fromTo(
+        '#p5',
+        { width: '14em', right: '53.5em' },
+        { width: '22em', right: '6em' },
+        '<',
+      )
 
-  document.getElementById('p3').addEventListener('click', function () {
-    t1.play()
-  })
-
-</script>
-</body>
+      document.getElementById('p3').addEventListener('click', function () {
+        t1.play()
+      })
+    </script>
+  </body>
 </html>

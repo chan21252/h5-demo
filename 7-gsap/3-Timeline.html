@@ -1,85 +1,90 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+      name="viewport"
+    />
     <title>2-Timeline</title>
     <style>
-        body {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            min-height: 100vh;
-            margin: 0;
-            overflow: hidden;
-        }
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        min-height: 100vh;
+        margin: 0;
+        overflow: hidden;
+      }
 
-        div {
-            display: block;
-        }
+      div {
+        display: block;
+      }
 
-        .box {
-            width: 100px;
-            height: 100px;
-            border-radius: 5px;
-        }
+      .box {
+        width: 100px;
+        height: 100px;
+        border-radius: 5px;
+      }
 
-        .green {
-            background: #73d13d;
-        }
+      .green {
+        background: #73d13d;
+      }
 
-        .red {
-            background: #ff7875;
-            transform: translateX(200px);
-        }
+      .red {
+        background: #ff7875;
+        transform: translateX(200px);
+      }
 
-        .yellow {
-            background: #ffc53d;
-        }
+      .yellow {
+        background: #ffc53d;
+      }
 
-        .blue {
-            background: #1890ff;
-        }
+      .blue {
+        background: #1890ff;
+      }
     </style>
-</head>
-<body>
-<div id="app">
-    <div class="box green"></div>
-    <div class="box red"></div>
-    <div class="box yellow"></div>
-    <div class="box blue"></div>
-</div>
-<script src="./lib/gsap.js"></script>
-<script>
-  gsap.to(".green", {
-    x: 200,
-    duration: 2,
-    rotation: 360,
-    repeat: -1,
-    yoyo: true
-  })
+  </head>
+  <body>
+    <div id="app">
+      <div class="box green"></div>
+      <div class="box red"></div>
+      <div class="box yellow"></div>
+      <div class="box blue"></div>
+    </div>
+    <script src="./lib/gsap.js"></script>
+    <script>
+      gsap.to('.green', {
+        x: 200,
+        duration: 2,
+        rotation: 360,
+        repeat: -1,
+        yoyo: true,
+      })
 
-  gsap.from(".red", {
-    x: -200,
-    duration: 2,
-    rotation: 360
-  })
+      gsap.from('.red', {
+        x: -200,
+        duration: 2,
+        rotation: 360,
+      })
 
-  gsap.fromTo(".yellow", {
-    x: 0,
-    rotation: 0,
-  }, {
-    x: 200,
-    rotation: 360,
-    duration: 2
-  })
+      gsap.fromTo(
+        '.yellow',
+        {
+          x: 0,
+          rotation: 0,
+        },
+        {
+          x: 200,
+          rotation: 360,
+          duration: 2,
+        },
+      )
 
-  gsap.set('.blue', {
-    x: 200,
-    rotation: 45
-  })
-
-
-</script>
-</body>
+      gsap.set('.blue', {
+        x: 200,
+        rotation: 45,
+      })
+    </script>
+  </body>
 </html>

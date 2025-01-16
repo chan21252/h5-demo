@@ -9,17 +9,18 @@
     <title>loading动画-声波</title>
     <style>
       * {
-        margin: 0;
         padding: 0;
+        margin: 0;
       }
+
       html,
       body {
-        width: 100vw;
-        height: 100vh;
         display: flex;
+        flex-wrap: nowrap;
         align-items: center;
         justify-content: center;
-        flex-wrap: nowrap;
+        width: 100vw;
+        height: 100vh;
         background-color: #dedede;
       }
 
@@ -29,7 +30,8 @@
 
       .container > img {
         /* 在线工具：https://zzd.show/tool/clippath/ */
-        /*clip-path: polygon(50% 0%, 0% 100%, 100% 100%);*/
+
+        /* clip-path: polygon(50% 0%, 0% 100%, 100% 100%); */
         clip-path: polygon(0 0, 0% 100%, 100% 50%);
       }
     </style>

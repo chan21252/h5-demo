@@ -1,40 +1,42 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+      name="viewport"
+    />
     <title>响应式原理-v1</title>
-</head>
-<body>
-<script>
-  /*
+  </head>
+  <body>
+    <script>
+      /*
   缺陷：通过函数名硬编码收集副作用函数，不能收集匿名函数
    */
-  const bucket = new Set()
-  const data = {
-    text: 'hello world'
-  }
-  const obj = new Proxy(data, {
-    get(target, key) {
-      bucket.add(effect)
-      return target[key]
-    },
-    set(target, key, newValue) {
-      target[key] = newValue
-      bucket.forEach(fn => fn())
-      return true
-    }
-  })
+      const bucket = new Set()
+      const data = {
+        text: 'hello world',
+      }
+      const obj = new Proxy(data, {
+        get(target, key) {
+          bucket.add(effect)
+          return target[key]
+        },
+        set(target, key, newValue) {
+          target[key] = newValue
+          bucket.forEach((fn) => fn())
+          return true
+        },
+      })
 
-  const effect = () => {
-    document.body.innerText = obj.text
-  }
+      const effect = () => {
+        document.body.innerText = obj.text
+      }
 
-  effect()
-  setTimeout(() => {
-    obj.text = 'hello vue'
-  }, 1000)
-
-</script>
-</body>
+      effect()
+      setTimeout(() => {
+        obj.text = 'hello vue'
+      }, 1000)
+    </script>
+  </body>
 </html>

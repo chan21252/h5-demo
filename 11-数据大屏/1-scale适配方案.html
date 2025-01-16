@@ -1,73 +1,75 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scale=0"
-          name="viewport">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scale=0"
+      name="viewport"
+    />
     <title>Scale适配方案</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            border: 0;
-        }
+      * {
+        padding: 0;
+        margin: 0;
+        border: 0;
+      }
 
-        div {
-            box-sizing: border-box;
-        }
+      div {
+        box-sizing: border-box;
+      }
 
-        .container {
-            width: 100vw;
-            height: 100vh;
-            background: url('../common/assets/data_screen_bg.jpg') no-repeat;
-            background-size: cover;
-        }
+      .container {
+        width: 100vw;
+        height: 100vh;
+        background: url('../common/assets/data_screen_bg.jpg') no-repeat;
+        background-size: cover;
+      }
 
-        .screen {
-            position: fixed;
-            left: 50%;
-            top: 50%;
-            width: 1920px;
-            height: 1080px;
-            background: linear-gradient(135deg, #00d9ff, #00a5eb);
-            /* https://developer.mozilla.org/zh-CN/docs/Web/CSS/transform-origin */
-            transform-origin: top left;
-            transform: translate(-50%, -50%);
-        }
+      .screen {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        width: 1920px;
+        height: 1080px;
+        background: linear-gradient(135deg, #00d9ff, #00a5eb);
+        transform: translate(-50%, -50%);
 
-        .top {
-            position: absolute;
-            left: 10px;
-            top: 10px;
-            width: 100px;
-            height: 100px;
-            background: pink;
-        }
+        /* https://developer.mozilla.org/zh-CN/docs/Web/CSS/transform-origin */
+        transform-origin: top left;
+      }
+
+      .top {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        width: 100px;
+        height: 100px;
+        background: pink;
+      }
     </style>
-</head>
-<body>
-<div class="container">
-    <div class="screen">
+  </head>
+  <body>
+    <div class="container">
+      <div class="screen">
         <div class="top"></div>
         <div class="bottom"></div>
+      </div>
     </div>
-</div>
-<script>
-  const screen = document.querySelector('.screen')
+    <script>
+      const screen = document.querySelector('.screen')
 
-  const getScale = (w = 1920, h = 1080) => {
-    const ww = window.innerWidth / w
-    const wh = window.innerHeight / h
-    console.log(ww, wh)
-    return ww < wh ? ww : wh
-  }
+      const getScale = (w = 1920, h = 1080) => {
+        const ww = window.innerWidth / w
+        const wh = window.innerHeight / h
+        console.log(ww, wh)
+        return ww < wh ? ww : wh
+      }
 
-  screen.style.transform = `scale(${getScale()}) translate(-50%, -50%)`
+      screen.style.transform = `scale(${getScale()}) translate(-50%, -50%)`
 
-  window.onresize = () => {
-    screen.style.transform = `scale(${getScale()}) translate(-50%, -50%)`
-  }
-
-</script>
-</body>
+      window.onresize = () => {
+        screen.style.transform = `scale(${getScale()}) translate(-50%, -50%)`
+      }
+    </script>
+  </body>
 </html>

@@ -1,52 +1,51 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <head>
+    <meta charset="UTF-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title></title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            border: none;
-        }
+      * {
+        padding: 0;
+        margin: 0;
+        border: none;
+      }
     </style>
-</head>
-<body>
-<div></div>
-<script src="js/pixi-6.5.10.js"></script>
-<script>
-    let app = new PIXI.Application({
+  </head>
+  <body>
+    <div></div>
+    <script src="lib/pixi-6.5.10.js"></script>
+    <script>
+      let app = new PIXI.Application({
         width: window.innerWidth,
         height: window.innerHeight,
         backgroundColor: 0x8fb2c9,
         resolution: window.devicePixelRatio || 1,
         antialias: true,
-    });
+      })
 
-    document.body.appendChild(app.view);
+      document.body.appendChild(app.view)
 
-    let rectangle = new PIXI.Graphics();
-    rectangle.beginFill(0xed556a);
-    rectangle.lineStyle(10, 0xe9ccd3);
-    rectangle.drawRect(0, 0, 100, 50);
-    rectangle.endFill();
-    // 设置缩放
-    // rectangle.scale.set(1.5, 1.5);
-    // 设置位置
-    rectangle.position.set(100, 200);
-    // 设置锚点
-    rectangle.pivot.set(50, 25)
-    rectangle.rotation = Math.PI / 4;
+      let rectangle = new PIXI.Graphics()
+      rectangle.beginFill(0xed556a)
+      rectangle.lineStyle(10, 0xe9ccd3)
+      rectangle.drawRect(0, 0, 100, 50)
+      rectangle.endFill()
+      // 设置缩放
+      // rectangle.scale.set(1.5, 1.5);
+      // 设置位置
+      rectangle.position.set(100, 200)
+      // 设置锚点
+      rectangle.pivot.set(50, 25)
+      rectangle.rotation = Math.PI / 4
 
+      let circle = new PIXI.Graphics()
+      circle.beginFill(0xfcd337, 0.6)
+      circle.drawCircle(200, 300, 100)
+      circle.endFill()
 
-    let circle = new PIXI.Graphics();
-    circle.beginFill(0xfcd337, .6);
-    circle.drawCircle(200, 300, 100);
-    circle.endFill();
-
-    app.stage.addChild(rectangle);
-    app.stage.addChild(circle);
-</script>
-</body>
+      app.stage.addChild(rectangle)
+      app.stage.addChild(circle)
+    </script>
+  </body>
 </html>

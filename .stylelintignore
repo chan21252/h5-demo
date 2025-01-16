@@ -2,3 +2,5 @@
 /dist/*
 /html/*
 /public/*
+**/lib/*
+test/

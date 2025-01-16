@@ -1,80 +1,80 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <head>
+    <meta charset="UTF-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title></title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            border: none;
-        }
+      * {
+        padding: 0;
+        margin: 0;
+        border: none;
+      }
     </style>
-</head>
-<body>
-<div></div>
-<script src="js/pixi-6.5.10.js"></script>
-<script>
-    let app = new PIXI.Application({
+  </head>
+  <body>
+    <div></div>
+    <script src="lib/pixi-6.5.10.js"></script>
+    <script>
+      let app = new PIXI.Application({
         width: window.innerWidth,
         height: window.innerHeight,
         backgroundColor: 0x8fb2c9,
         resolution: window.devicePixelRatio || 1,
         antialias: true,
-    });
+      })
 
-    document.body.appendChild(app.view);
+      document.body.appendChild(app.view)
 
-    let color = 0xf1939c;
-    // 圆角矩形
-    let roundRect = new PIXI.Graphics();
-    roundRect.beginFill(color);
-    roundRect.drawRoundedRect(0, 0, 164, 64, 10);
-    roundRect.endFill();
-    roundRect.position.set(10, 47)
-    app.stage.addChild(roundRect);
+      let color = 0xf1939c
+      // 圆角矩形
+      let roundRect = new PIXI.Graphics()
+      roundRect.beginFill(color)
+      roundRect.drawRoundedRect(0, 0, 164, 64, 10)
+      roundRect.endFill()
+      roundRect.position.set(10, 47)
+      app.stage.addChild(roundRect)
 
-    // 圆形
-    let circle = new PIXI.Graphics();
-    circle.beginFill(color);
-    circle.drawCircle(0, 0, 64);
-    circle.endFill();
-    circle.position.set(248, 80);
-    app.stage.addChild(circle);
+      // 圆形
+      let circle = new PIXI.Graphics()
+      circle.beginFill(color)
+      circle.drawCircle(0, 0, 64)
+      circle.endFill()
+      circle.position.set(248, 80)
+      app.stage.addChild(circle)
 
-    // 椭圆形
-    let ellipse = new PIXI.Graphics();
-    ellipse.beginFill(color);
-    ellipse.drawEllipse(0, 0, 100, 64);
-    ellipse.endFill();
-    ellipse.position.set(420, 80);
-    app.stage.addChild(ellipse);
+      // 椭圆形
+      let ellipse = new PIXI.Graphics()
+      ellipse.beginFill(color)
+      ellipse.drawEllipse(0, 0, 100, 64)
+      ellipse.endFill()
+      ellipse.position.set(420, 80)
+      app.stage.addChild(ellipse)
 
-    // 多边形
-    let poly = new PIXI.Graphics();
-    poly.beginFill(color);
-    poly.drawPolygon([0, 0, 100, 0, 150, 100, 50, 100]);
-    poly.endFill();
-    poly.position.set(10, 148);
-    app.stage.addChild(poly);
+      // 多边形
+      let poly = new PIXI.Graphics()
+      poly.beginFill(color)
+      poly.drawPolygon([0, 0, 100, 0, 150, 100, 50, 100])
+      poly.endFill()
+      poly.position.set(10, 148)
+      app.stage.addChild(poly)
 
-    // 圆弧
-    let arc = new PIXI.Graphics();
-    arc.beginFill(color);
-    arc.arc(0, 0, 64, 0, Math.PI);
-    arc.endFill();
-    arc.position.set(248, 148);
-    app.stage.addChild(arc);
+      // 圆弧
+      let arc = new PIXI.Graphics()
+      arc.beginFill(color)
+      arc.arc(0, 0, 64, 0, Math.PI)
+      arc.endFill()
+      arc.position.set(248, 148)
+      app.stage.addChild(arc)
 
-    // 线段
-    let line = new PIXI.Graphics();
-    line.lineStyle(3, color, 0.8);
-    line.moveTo(0, 0);
-    line.lineTo(100, 100);
-    line.lineTo(200, 0);
-    line.position.set(320, 148);
-    app.stage.addChild(line);
-</script>
-</body>
+      // 线段
+      let line = new PIXI.Graphics()
+      line.lineStyle(3, color, 0.8)
+      line.moveTo(0, 0)
+      line.lineTo(100, 100)
+      line.lineTo(200, 0)
+      line.position.set(320, 148)
+      app.stage.addChild(line)
+    </script>
+  </body>
 </html>

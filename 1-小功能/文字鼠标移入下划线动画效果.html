@@ -1,34 +1,34 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>文字鼠标移入下划线动画效果</title>
     <style>
-        .text {
-            font-size: 28px;
-            line-height: 36px;
-        }
+      .text {
+        font-size: 28px;
+        line-height: 36px;
+      }
 
-        .text > span {
-            background: linear-gradient(to right, #ff6767, #8aef67) no-repeat bottom right;
-            background-size: 0 2px;
-            transition: background-size 1s;
-        }
+      .text > span {
+        background: linear-gradient(to right, #ff6767, #8aef67) no-repeat bottom
+          right;
+        background-size: 0 2px;
+        transition: background-size 1s;
+      }
 
-        .text > span:hover {
-            background-position: bottom left;
-            background-size: 100% 2px;
-        }
-
-
+      .text > span:hover {
+        background-position: bottom left;
+        background-size: 100% 2px;
+      }
     </style>
-</head>
-<body>
-<div class="text">
-    <span>鼠标放到这里看看
-        <br/>
+  </head>
+  <body>
+    <div class="text">
+      <span>
         鼠标放到这里看看
-    </span>
-</div>
-</body>
+        <br />
+        鼠标放到这里看看
+      </span>
+    </div>
+  </body>
 </html>

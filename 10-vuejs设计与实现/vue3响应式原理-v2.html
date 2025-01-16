@@ -1,51 +1,53 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+      name="viewport"
+    />
     <title>响应式原理-v2</title>
-</head>
-<body>
-<script>
-  /*
+  </head>
+  <body>
+    <script>
+      /*
   优化：effect实现副作用函数的注册机制，用activeEffect全局存储注册的副作用函数
   缺陷：修改某个数据，会触发所有的副作用函数，应该只触发和本数据相关的
   */
-  const bucket = new Set()
-  const data = {
-    text: 'hello world'
-  }
-  const obj = new Proxy(data, {
-    get(target, key) {
-      if (!activeEffect) return
-      bucket.add(activeEffect)
-      return target[key]
-    },
-    set(target, key, newValue) {
-      target[key] = newValue
-      bucket.forEach(fn => fn())
-      return true
-    }
-  })
+      const bucket = new Set()
+      const data = {
+        text: 'hello world',
+      }
+      const obj = new Proxy(data, {
+        get(target, key) {
+          if (!activeEffect) return
+          bucket.add(activeEffect)
+          return target[key]
+        },
+        set(target, key, newValue) {
+          target[key] = newValue
+          bucket.forEach((fn) => fn())
+          return true
+        },
+      })
 
-  let activeEffect = null
-  const effect = (fn) => {
-    activeEffect = fn
-    fn()
-  }
+      let activeEffect = null
+      const effect = (fn) => {
+        activeEffect = fn
+        fn()
+      }
 
-  effect(() => {
-    console.log('副作用函数执行..')
-    document.body.innerText = obj.text
-  })
-  setTimeout(() => {
-    obj.text = 'hello vue'
-  }, 1000)
+      effect(() => {
+        console.log('副作用函数执行..')
+        document.body.innerText = obj.text
+      })
+      setTimeout(() => {
+        obj.text = 'hello vue'
+      }, 1000)
 
-  setTimeout(() => {
-    obj.noExist = 'no exits'
-  }, 2000)
-
-</script>
-</body>
+      setTimeout(() => {
+        obj.noExist = 'no exits'
+      }, 2000)
+    </script>
+  </body>
 </html>

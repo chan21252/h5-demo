@@ -1,63 +1,65 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+      name="viewport"
+    />
     <title>3-timeline</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-        }
+      * {
+        padding: 0;
+        margin: 0;
+      }
 
-        #app {
-        }
+      #app {
+      }
 
-        div {
-            display: block;
-        }
+      div {
+        display: block;
+      }
 
-        .box {
-            left: 0;
-            width: 100px;
-            height: 100px;
-            border-radius: 5px;
-        }
+      .box {
+        left: 0;
+        width: 100px;
+        height: 100px;
+        border-radius: 5px;
+      }
 
-        .green {
-            background: #73d13d;
-        }
+      .green {
+        background: #73d13d;
+      }
 
-        .red {
-            background: #ff7875;
-        }
+      .red {
+        background: #ff7875;
+      }
 
-        .yellow {
-            background: #ffc53d;
-        }
+      .yellow {
+        background: #ffc53d;
+      }
 
-        .blue {
-            background: #1890ff;
-        }
+      .blue {
+        background: #1890ff;
+      }
     </style>
-</head>
-<body>
-<div id="app">
-    <div class="box green"></div>
-    <div class="box red"></div>
-    <div class="box blue"></div>
-</div>
-<script src="./lib/gsap.js" type="text/javascript"></script>
-<script>
-  // https://greensock.com/get-started-2
-  let t1 = gsap.timeline({
-    repeat: -1,
-    yoyo: true
-  })
-  t1.to('.green', {x: 500, duration: 2}, 1)
-  t1.to('.red', {x: 500, duration: 1}, "<")
-  t1.to('.blue', {x: 500, duration: 1}, "+=1")
-
-</script>
-</body>
+  </head>
+  <body>
+    <div id="app">
+      <div class="box green"></div>
+      <div class="box red"></div>
+      <div class="box blue"></div>
+    </div>
+    <script src="./lib/gsap.js" type="text/javascript"></script>
+    <script>
+      // https://greensock.com/get-started-2
+      let t1 = gsap.timeline({
+        repeat: -1,
+        yoyo: true,
+      })
+      t1.to('.green', { x: 500, duration: 2 }, 1)
+      t1.to('.red', { x: 500, duration: 1 }, '<')
+      t1.to('.blue', { x: 500, duration: 1 }, '+=1')
+    </script>
+  </body>
 </html>

@@ -1,66 +1,225 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
     <title>2-1点击切换</title>
-</head>
-<body>
-<section style="max-width: 360px!important;margin:0 auto;-webkit-touch-callout:none;overflow: hidden;">
-    <!-- 结束 -->
-    <section style="height:0;margin-top: -1px">
-        <svg viewBox="0 0 1125 2436" preserveAspectRatio="xMinYMin meet" style="background-image: url(../assets/qixi_6.jpg);background-size: 100% auto;background-repeat: no-repeat;width: 100%;" width="100%" opacity="1">
+  </head>
+  <body>
+    <section
+      style="
+        max-width: 360px !important;
+        margin: 0 auto;
+        -webkit-touch-callout: none;
+        overflow: hidden;
+      "
+    >
+      <!-- 结束 -->
+      <section style="height: 0; margin-top: -1px">
+        <svg
+          viewBox="0 0 1125 2436"
+          preserveAspectRatio="xMinYMin meet"
+          style="
+            background-image: url(../assets/qixi_6.jpg);
+            background-size: 100% auto;
+            background-repeat: no-repeat;
+            width: 100%;
+          "
+          width="100%"
+          opacity="1"
+        ></svg>
+      </section>
+      <section style="height: 0">
+        <svg
+          viewBox="0 0 1125 2436"
+          preserveAspectRatio="xMinYMin meet"
+          style="
+            background-image: url(../assets/qixi_5.jpg);
+            background-size: 100% auto;
+            background-repeat: no-repeat;
+            width: 100%;
+            transform: rotateZ(0deg);
+            pointer-events: visible;
+          "
+          width="100%"
+          opacity="1"
+        >
+          <animate
+            attributeName="opacity"
+            begin="click"
+            restart="never"
+            dur="0.001s"
+            from="1"
+            to="0"
+            fill="freeze"
+          ></animate>
+          <animate
+            attributeName="height"
+            begin="click+0.001s"
+            restart="never"
+            dur="0.01s"
+            to="0"
+            fill="freeze"
+          ></animate>
         </svg>
-    </section>
-    <section style="height: 0;">
-        <svg viewBox="0 0 1125 2436" preserveAspectRatio="xMinYMin meet"
-             style="background-image: url(../assets/qixi_5.jpg);background-size: 100% auto;background-repeat: no-repeat;width: 100%;transform: rotateZ(0deg);pointer-events:visible" width="100%" opacity="1">
-            <animate attributeName="opacity" begin="click" restart="never" dur="0.001s" from="1" to="0" fill="freeze">
-            </animate>
-            <animate attributeName="height" begin="click+0.001s" restart="never" dur="0.01s" to="0" fill="freeze">
-            </animate>
+      </section>
+      <section style="height: 0">
+        <svg
+          viewBox="0 0 1125 2436"
+          preserveAspectRatio="xMinYMin meet"
+          style="
+            background-image: url(../assets/qixi_4.jpg);
+            background-size: 100% auto;
+            background-repeat: no-repeat;
+            width: 100%;
+            transform: rotateZ(0deg);
+            pointer-events: visible;
+          "
+          width="100%"
+          opacity="1"
+        >
+          <animate
+            attributeName="opacity"
+            begin="click"
+            restart="never"
+            dur="0.001s"
+            from="1"
+            to="0"
+            fill="freeze"
+          ></animate>
+          <animate
+            attributeName="height"
+            begin="click+0.001s"
+            restart="never"
+            dur="0.01s"
+            to="0"
+            fill="freeze"
+          ></animate>
         </svg>
-    </section>
-    <section style="height: 0;">
-        <svg viewBox="0 0 1125 2436" preserveAspectRatio="xMinYMin meet"
-             style="background-image: url(../assets/qixi_4.jpg);background-size: 100% auto;background-repeat: no-repeat;width: 100%;transform: rotateZ(0deg);pointer-events:visible" width="100%" opacity="1">
-            <animate attributeName="opacity" begin="click" restart="never" dur="0.001s" from="1" to="0" fill="freeze">
-            </animate>
-            <animate attributeName="height" begin="click+0.001s" restart="never" dur="0.01s" to="0" fill="freeze">
-            </animate>
+      </section>
+      <section style="height: 0">
+        <svg
+          viewBox="0 0 1125 2436"
+          preserveAspectRatio="xMinYMin meet"
+          style="
+            background-image: url(../assets/qixi_3.jpg);
+            background-size: 100% auto;
+            background-repeat: no-repeat;
+            width: 100%;
+            transform: rotateZ(0deg);
+            pointer-events: visible;
+          "
+          width="100%"
+          opacity="1"
+        >
+          <animate
+            attributeName="opacity"
+            begin="click"
+            restart="never"
+            dur="0.001s"
+            from="1"
+            to="0"
+            fill="freeze"
+          ></animate>
+          <animate
+            attributeName="height"
+            begin="click+0.001s"
+            restart="never"
+            dur="0.01s"
+            to="0"
+            fill="freeze"
+          ></animate>
         </svg>
-    </section>
-    <section style="height: 0;">
-        <svg viewBox="0 0 1125 2436" preserveAspectRatio="xMinYMin meet"
-             style="background-image: url(../assets/qixi_3.jpg);background-size: 100% auto;background-repeat: no-repeat;width: 100%;transform: rotateZ(0deg);pointer-events:visible" width="100%" opacity="1">
-            <animate attributeName="opacity" begin="click" restart="never" dur="0.001s" from="1" to="0" fill="freeze">
-            </animate>
-            <animate attributeName="height" begin="click+0.001s" restart="never" dur="0.01s" to="0" fill="freeze">
-            </animate>
+      </section>
+      <section style="height: 0">
+        <svg
+          viewBox="0 0 1080 2339"
+          preserveAspectRatio="xMinYMin meet"
+          style="
+            background-image: url(../assets/qixi_2.jpg);
+            background-size: 100% auto;
+            background-repeat: no-repeat;
+            width: 100%;
+            transform: rotateZ(0deg);
+            pointer-events: visible;
+          "
+          width="100%"
+          opacity="1"
+        >
+          <animate
+            attributeName="opacity"
+            begin="click"
+            restart="never"
+            dur="0.001s"
+            from="1"
+            to="0"
+            fill="freeze"
+          ></animate>
+          <animate
+            attributeName="height"
+            begin="click+0.001s"
+            restart="never"
+            dur="0.01s"
+            to="0"
+            fill="freeze"
+          ></animate>
         </svg>
-    </section>
-    <section style="height: 0;">
-        <svg viewBox="0 0 1080 2339" preserveAspectRatio="xMinYMin meet"
-             style="background-image: url(../assets/qixi_2.jpg);background-size: 100% auto;background-repeat: no-repeat;width: 100%;transform: rotateZ(0deg);pointer-events:visible" width="100%" opacity="1">
-            <animate attributeName="opacity" begin="click" restart="never" dur="0.001s" from="1" to="0" fill="freeze">
-            </animate>
-            <animate attributeName="height" begin="click+0.001s" restart="never" dur="0.01s" to="0" fill="freeze">
-            </animate>
+      </section>
+      <!-- 开始 -->
+      <section>
+        <svg
+          viewBox="0 0 1125 2436"
+          preserveAspectRatio="xMinYMin meet"
+          style="
+            background-image: url(../assets/qixi_1.jpg);
+            background-size: 100% auto;
+            background-repeat: no-repeat;
+            width: 100%;
+            transform: rotateZ(0deg);
+            pointer-events: none;
+          "
+          width="100%"
+          opacity="1"
+        >
+          <rect
+            x="0"
+            y="0"
+            width="1125"
+            height="2436"
+            opacity="0"
+            pointer-events="none"
+          ></rect>
+          <rect
+            x="0"
+            y="0"
+            width="1125"
+            height="2436"
+            opacity="0"
+            pointer-events="painted"
+          >
+            <animate
+              attributeName="height"
+              begin="click+0.001s"
+              restart="never"
+              dur="0.01s"
+              to="0"
+              fill="freeze"
+            ></animate>
+          </rect>
+          <animate
+            attributeName="opacity"
+            begin="click"
+            restart="never"
+            dur="0.01s"
+            from="1"
+            to="0"
+            fill="freeze"
+          ></animate>
         </svg>
+      </section>
     </section>
-    <!-- 开始 -->
-    <section>
-        <svg viewBox="0 0 1125 2436" preserveAspectRatio="xMinYMin meet"
-             style="background-image: url(../assets/qixi_1.jpg);background-size: 100% auto;background-repeat: no-repeat;width: 100%;transform: rotateZ(0deg);pointer-events: none;" width="100%" opacity="1">
-            <rect x="0" y="0" width="1125" height="2436" opacity="0" pointer-events="none"></rect>
-            <rect x="0" y="0" width="1125" height="2436" opacity="0" pointer-events="painted">
-                <animate attributeName="height" begin="click+0.001s" restart="never" dur="0.01s" to="0" fill="freeze">
-                </animate>
-            </rect>
-            <animate attributeName="opacity" begin="click" restart="never" dur="0.01s" from="1" to="0" fill="freeze">
-            </animate>
-        </svg>
-    </section>
-</section>
-</body>
+  </body>
 </html>

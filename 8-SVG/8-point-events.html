@@ -1,31 +1,34 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
     <title>Title</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-        }
+      * {
+        padding: 0;
+        margin: 0;
+      }
     </style>
-</head>
-<body>
-<section style="overflow: hidden">
-    <section style="pointer-events: none;height: 0;">
+  </head>
+  <body>
+    <section style="overflow: hidden">
+      <section style="height: 0; pointer-events: none">
         <h1 onclick="console.log(1)" style="pointer-events: visible">1</h1>
-    </section>
-    <section style="pointer-events: none;">
+      </section>
+      <section style="pointer-events: none">
         <h1 id="h2" style="pointer-events: visible">2</h1>
+      </section>
     </section>
-</section>
-<script>
-    let h2El = document.getElementById("h2");
-    h2El.addEventListener('touchstart', function (e) {
-      console.log(2);
-      h2El.style.visibility = "hidden";
-    })
-</script>
-</body>
+    <script>
+      let h2El = document.getElementById('h2')
+      h2El.addEventListener('touchstart', function (e) {
+        console.log(2)
+        h2El.style.visibility = 'hidden'
+      })
+    </script>
+  </body>
 </html>

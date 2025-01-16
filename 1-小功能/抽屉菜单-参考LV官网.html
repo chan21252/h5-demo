@@ -9,9 +9,9 @@
     <title>Title</title>
     <style>
       * {
-        margin: 0;
-        padding: 0;
         box-sizing: border-box;
+        padding: 0;
+        margin: 0;
       }
 
       html,
@@ -29,11 +29,11 @@
 
       .header .nav {
         position: relative;
-        width: 100%;
-        height: 100%;
         display: flex;
         align-items: center;
         justify-content: flex-start;
+        width: 100%;
+        height: 100%;
       }
 
       .header .nav .item {
@@ -55,14 +55,14 @@
       .menu-toggler .bars::after,
       .menu-toggler .bars > span::before,
       .menu-toggler .bars > span::after {
-        content: '';
         position: absolute;
         display: block;
         width: 100%;
         height: 1px;
+        content: '';
         background: #333;
-        transform-origin: 50% 50%;
         transition: transform 0.3s cubic-bezier(0.39, 0.575, 0.565, 1);
+        transform-origin: 50% 50%;
       }
 
       .menu-toggler .bars::before {
@@ -75,8 +75,8 @@
 
       .menu-toggler .bars > span::before,
       .menu-toggler .bars > span::after {
-        left: 50%;
         top: 9px;
+        left: 50%;
         transform: translateX(-50%);
       }
 
@@ -97,41 +97,41 @@
       .menu-wrapper {
         position: fixed;
         top: 56px;
-        left: 0;
         right: 0;
-        height: 0;
+        left: 0;
         width: 100%;
-        opacity: 0;
-        background: #fff;
+        height: 0;
         overflow-y: auto;
+        background: #fff;
+        opacity: 0;
         transition: all 0.3s cubic-bezier(0.39, 0.575, 0.565, 1);
       }
 
       .menu-wrapper.active {
         height: calc(100vh - 56px);
-        opacity: 1;
         visibility: visible;
+        opacity: 1;
       }
 
       .menu-list {
-        width: 100%;
-        height: 100%;
         display: flex;
         flex-direction: column;
-        justify-content: flex-start;
         align-items: center;
+        justify-content: flex-start;
+        width: 100%;
+        height: 100%;
         padding: 20px 0;
       }
 
       .menu-list .item {
         width: 80%;
         height: 50px;
+        margin-bottom: 20px;
         line-height: 50px;
-        text-align: center;
         color: #333;
+        text-align: center;
         border: 1px solid #e1e1e1;
         border-radius: 10px;
-        margin-bottom: 20px;
         transition:
           opacity 0.3s calc(var(--i) * 0.03s)
             cubic-bezier(0.39, 0.575, 0.565, 1),
