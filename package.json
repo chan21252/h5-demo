@@ -11,12 +11,12 @@
     "lint:eslint": "eslint **/*.{js,html} --cache --fix",
     "lint:style": "stylelint **/*.{css,scss,html} --cache --fix"
   },
-  "dependencies": {},
   "devDependencies": {
     "@stylistic/stylelint-plugin": "^3.1.1",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-html": "^8.1.2",
     "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-n": "^15.0.0",
     "eslint-plugin-prettier": "^5.1.2",

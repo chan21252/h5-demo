@@ -1,5 +1,5 @@
 build/
 dist/
 release/
-**/lib/
-test/
+**/lib/**
+test/**
