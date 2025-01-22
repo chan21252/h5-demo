@@ -6,7 +6,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
     />
-    <title>Title</title>
+    <title>tun.js-1</title>
     <style>
       * {
         box-sizing: border-box;
@@ -23,7 +23,7 @@
       }
 
       #flipbook {
-        /* 翻页更自然 */
+        /* 打开更自然 */
         transition: margin-left 0.2s;
       }
 
@@ -32,7 +32,7 @@
         line-height: 300px;
         text-align: center;
         background: #fff;
-        box-shadow: inset 0 0 5px #666;
+        box-shadow: inset 0 0 5px #666 !important;
       }
 
       #flipbook .page-wrapper {
@@ -40,6 +40,7 @@
       }
 
       #flipbook .odd {
+        /* 页缝隙的阴影 */
         background-image: linear-gradient(to left, #fff 95%, #dadada 100%);
       }
 
@@ -51,10 +52,6 @@
         font-weight: bold;
         color: #333;
         background: #ccc !important;
-        box-shadow: inset 0 0 5px #666;
-      }
-
-      #flipbook .page > img {
         box-shadow: inset 0 0 5px #666;
       }
     </style>
@@ -83,20 +80,45 @@
     ;(function ($) {
       const options = {
         acceleration: $.isTouch, //硬件加速, 默认true, 如果是触摸设备设置为true
+        autoCenter: true,
+        display: 'double', // single/double
+        duration: 600, // transition 毫秒数
+        gradients: true, // 显示过渡的阴影和渐变
         width: 400,
         height: 300,
-        display: 'double', // single/double
-        autoCenter: true,
+        inclination: 1000, // 过渡的倾斜角度
         shadow: $.isTouch,
-        inclination: 0,
-        page: 1,
+        page: 1, // 第1页
+        pages: 18, // 总页数
         when: {
-          start: function (event, page, pageObj) {
-            console.log(event, page, pageObj)
+          start: function (event, pageObj, corner) {
+            console.log('开始翻页 :>> ', pageObj)
+          },
+          end: function (event, page, pageObj) {
+            console.log('结束翻页 :>> ', page)
+          },
+          first: function (e) {
+            console.log('翻到第1页了')
+          },
+          last: function (e) {
+            console.log('翻到最后1页了')
+          },
+          turning: function (e, page, view) {
+            console.log('翻页之前触发', view)
+          },
+          turned: function (e, page, view) {
+            console.log('翻页之后触发', view)
+          },
+          zooming: function (e, newFactor, current) {
+            console.log('zooming', newFactor, current)
+          },
+          missing: function (e, pages) {
+            console.log('当前范围缺少页面的时候触发 :>> ', pages)
           },
         },
       }
       $('#flipbook').turn(options)
+      $('#flipbook').turn('page', 5)
     })(jQuery)
   </script>
 </html>
