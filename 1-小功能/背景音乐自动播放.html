@@ -41,12 +41,16 @@
     </style>
   </head>
   <body>
-    <div class="music rotate" id="music">
+    <div class="music rotate pause" id="music">
       <img src="./assets/music.png" alt="" />
       <audio src="./assets/audio.mp3" autoplay style="display: none"></audio>
     </div>
+    <script src="https://unpkg.com/vconsole@latest/dist/vconsole.min.js"></script>
     <script>
-      ;(function () {
+      let vConsole = new window.VConsole()
+    </script>
+    <script>
+      function BGM() {
         let state = {
           playStatus: false,
           touched: false,
@@ -56,6 +60,22 @@
         const musicEl = document.querySelector('.music')
         const ua = navigator.userAgent
         const isIOS = !!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)
+
+        // 用户交互事件，在禁止自动播放的浏览器中触发播放
+        const interactEvt = 'click'
+        musicEl.addEventListener('click', togglePlayStatus)
+
+        // 判断是否支持自动播放
+        audioEl.addEventListener('canplay', function () {
+          console.log('BGM 自动播放 :>>', !audioEl.paused)
+          state.playStatus = !audioEl.paused
+          if (state.playStatus) {
+            musicEl.classList.remove('pause')
+          }
+        })
+
+        // 交互后触发自动播放
+        document.addEventListener(interactEvt, triggerPlayAudio, false)
 
         /*
         1. 微信iOS支持自动播放
@@ -67,22 +87,32 @@
           function () {
             if (isIOS && !state.playStatus) {
               audioEl.play()
-              state.playStatus = true
+              state.playStatus = !audioEl.paused
+              musicEl.classList.remove('pause')
+              console.log('BGM iOS微信自动播放 :>>', !audioEl.paused)
             }
           },
           false,
         )
 
+        /**
+         * 触发播放音频
+         */
         function triggerPlayAudio() {
           if (!state.playStatus && !state.touched) {
             audioEl.play()
             state.playStatus = true
             state.touched = true
             musicEl.classList.remove('pause')
+            console.log('BGM 交互后播放 :>>', !audioEl.paused)
           }
-          document.removeEventListener('click', triggerPlayAudio)
+          document.removeEventListener(interactEvt, triggerPlayAudio)
         }
 
+        /**
+         * / 切换音频播放状态
+         * @param e
+         */
         function togglePlayStatus(e) {
           e.stopPropagation()
           if (state.playStatus) {
@@ -94,16 +124,9 @@
           }
           state.playStatus = !state.playStatus
         }
+      }
 
-        musicEl.addEventListener('click', togglePlayStatus)
-
-        state.playStatus = !audioEl.paused
-        // 不支持自动播放，icon改成暂停
-        if (audioEl.paused) {
-          musicEl.classList.add('pause')
-          document.addEventListener('click', triggerPlayAudio, false)
-        }
-      })()
+      new BGM()
     </script>
   </body>
 </html>
